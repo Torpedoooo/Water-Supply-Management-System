@@ -136,3 +136,45 @@ void Network::parseReservoirs(std::string path) {
         graph.findVertex(code)->setType(0);
     }
 }
+
+void Network::parsePipes(std::string path) {
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening file " << path << std::endl;
+        return;
+    }
+
+    std::string firstLine;
+    if (getline(file, firstLine)) { //read and ignore first line
+    } else {
+        std::cerr << "File is empty or missing header!" << std::endl;
+        file.close();
+        return;
+    }
+    //Service_Point_A,Service_Point_B,Capacity,Direction
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream linestream(line);
+        std::string value;
+
+        std::getline(linestream, value, ',');
+        std::string source = value;
+
+        std::getline(linestream, value, ',');
+        std::string dest= value;
+
+        std::getline(linestream, value, ',');
+        int capacity = std::stoi(value);
+
+        std::getline(linestream, value, ',');
+        int direction = std::stoi(value);
+
+        if (direction == 1) {
+            graph.addEdge(source, dest, capacity);
+        } else {
+            graph.addEdge(source,dest, capacity);
+            graph.addEdge(dest,source, capacity);
+        }
+    }
+}

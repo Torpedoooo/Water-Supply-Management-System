@@ -27,6 +27,7 @@ public:
     void parseCities(std::string path);
     void parseReservoirs(std::string path);
     void parseStations(std::string path);
+    void parsePipes(std::string path);
 };
 
 

@@ -9,5 +9,6 @@ int main() {
     network.parseCities("../src/dataset/small/Cities_Madeira.csv");
     network.parseReservoirs("../src/dataset/small/Reservoirs_Madeira.csv");
     network.parseStations("../src/dataset/small/Stations_Madeira.csv");
+    network.parsePipes("../src/dataset/small/Pipes_Madeira.csv");
     return 0;
 }
