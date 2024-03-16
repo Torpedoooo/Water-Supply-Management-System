@@ -42,6 +42,8 @@ public:
     Edge<T> * addEdge(Vertex<T> *dest, double w);
     bool removeEdge(T in);
     void removeOutgoingEdges();
+    void setType(int type);
+    int getType();
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
@@ -53,6 +55,7 @@ protected:
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     unsigned int indegree; // used by topsort
     double dist = 0;
+    int type; //0: Reservoir / 1: Station / 2:City
     Edge<T> *path = nullptr;
 
     std::vector<Edge<T> *> incoming; // incoming edges
@@ -288,6 +291,16 @@ void Vertex<T>::deleteEdge(Edge<T> *edge) {
         }
     }
     delete edge;
+}
+
+template<class T>
+void Vertex<T>::setType(int type) {
+    this->type = type;
+}
+
+template<class T>
+int Vertex<T>::getType() {
+    return type;
 }
 
 /********************** Edge  ****************************/

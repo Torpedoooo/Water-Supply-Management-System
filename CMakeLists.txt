@@ -16,8 +16,8 @@ file(COPY src/dataset/small/Stations_Madeira.csv DESTINATION ${CMAKE_CURRENT_BIN
 
 add_executable(GraphProject
         src/main.cpp
-        src/Data.cpp
-        src/Data.h
+        src/Network.cpp
+        src/Network.h
         src/data_structures/Graph.h
         src/data_structures/MutablePriorityQueue.h
         src/data_structures/City.h

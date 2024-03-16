@@ -11,7 +11,22 @@ class Station {
     private:
         int id;
         std::string code;
+    public:
+    int getId() const {
+        return id;
+    }
 
+    void setId(int id) {
+        this->id = id;
+    }
+
+    const std::string &getCode() const {
+        return code;
+    }
+
+    void setCode(const std::string &code) {
+        this->code;
+    }
 };
 
 

@@ -11,10 +11,10 @@
 class City {
 private:
     int id;
-    int demand;
+    double demand;
     int population;
-    std::string City;
-    std::string Code;
+    std::string city;
+    std::string code;
 
 public:
     int getId() const {
@@ -25,11 +25,11 @@ public:
         City::id = id;
     }
 
-    int getDemand() const {
+    double getDemand() const {
         return demand;
     }
 
-    void setDemand(int demand) {
+    void setDemand(double demand) {
         City::demand = demand;
     }
 
@@ -42,19 +42,19 @@ public:
     }
 
     const std::string &getCity() const {
-        return City;
+        return city;
     }
 
     void setCity(const std::string &city) {
-        City = city;
+        this->city = city;
     }
 
     const std::string &getCode() const {
-        return Code;
+        return code;
     }
 
     void setCode(const std::string &code) {
-        Code = code;
+        this->code = code;
     }
 };
 
