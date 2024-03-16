@@ -1,5 +1,6 @@
 //
 // Created by davidm-g on 16-03-2024.
 //
-
-#include "Data.h"
+//water reservatoirs - sources
+//pumping stations - intermediate nodes
+//cities - sinks

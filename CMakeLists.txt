@@ -20,6 +20,9 @@ add_executable(GraphProject
         src/Data.h
         src/data_structures/Graph.h
         src/data_structures/MutablePriorityQueue.h
+        src/data_structures/City.h
+        src/data_structures/Reservoir.h
+        src/data_structures/Station.h
 )
 
 # Doxygen Build
