@@ -24,10 +24,13 @@ class Network {
         std::unordered_map<std::string, Station> stations;
 
 public:
+
+    //Parsing functions
     void parseCities(std::string path);
     void parseReservoirs(std::string path);
     void parseStations(std::string path);
     void parsePipes(std::string path);
+    /////////////////////////
 };
 
 
