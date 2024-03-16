@@ -14,9 +14,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 class Network {
     private:
         Graph<std::string> graph;
+        std::unordered_map<std::string,Vertex<std::string>*> vertices;
         std::unordered_map<std::string, Reservoir> reservoirs;
         std::unordered_map<std::string, City> cities;
         std::unordered_map<std::string, Station> stations;
@@ -24,7 +26,7 @@ class Network {
 public:
     void parseCities(std::string path);
     void parseReservoirs(std::string path);
-    void parseStation(std::string path);
+    void parseStations(std::string path);
 };
 
 

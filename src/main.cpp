@@ -7,5 +7,7 @@
 int main() {
     Network network;
     network.parseCities("../src/dataset/small/Cities_Madeira.csv");
+    network.parseReservoirs("../src/dataset/small/Reservoirs_Madeira.csv");
+    network.parseStations("../src/dataset/small/Stations_Madeira.csv");
     return 0;
 }

@@ -45,6 +45,94 @@ void Network::parseCities(std::string path){
         current_city.setPopulation(population);
         cities[code] = current_city;
         graph.addVertex(code);
+        vertices[code] = graph.findVertex(code);
         graph.findVertex(code)->setType(2);
+    }
+}
+
+
+void Network::parseStations(std::string path){
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening file " << path << std::endl;
+        return;
+    }
+
+    std::string firstLine;
+    if (getline(file, firstLine)) { //read and ignore first line
+    } else {
+        std::cerr << "File is empty or missing header!" << std::endl;
+        file.close();
+        return;
+    }
+    //Id,Code
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream linestream(line);
+        std::string value;
+
+        std::getline(linestream, value, ',');
+        int id = std::stoi(value);
+
+        std::getline(linestream, value, '\r');
+        std::string code = value;
+
+        Station station;
+        station.setId(id);
+        station.setCode(code);
+        stations[code]=station;
+        graph.addVertex(code);
+        vertices[code] = graph.findVertex(code);
+        graph.findVertex(code)->setType(1);
+    }
+}
+
+void Network::parseReservoirs(std::string path) {
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening file " << path << std::endl;
+        return;
+    }
+
+    std::string firstLine;
+    if (getline(file, firstLine)) { //read and ignore first line
+    } else {
+        std::cerr << "File is empty or missing header!" << std::endl;
+        file.close();
+        return;
+    }
+    //Reservoir,Municipality,Id,Code,Maximum Delivery (m3/sec)
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream linestream(line);
+        std::string value;
+
+        std::getline(linestream, value, ',');
+        std::string reservoir = value;
+
+        std::getline(linestream, value, ',');
+        std::string municipality = value;
+
+        std::getline(linestream, value, ',');
+        int id = std::stoi(value);
+
+        std::getline(linestream, value, ',');
+        std::string code = value;
+
+        std::getline(linestream, value, ',');
+        int max_delivery = std::stoi(value);
+
+        Reservoir current_reservoir;
+        current_reservoir.setCode(code);
+        current_reservoir.setId(id);
+        current_reservoir.set_name(reservoir);
+        current_reservoir.set_municipality(municipality);
+        current_reservoir.set_max_delivery(max_delivery);
+        reservoirs[code]=current_reservoir;
+        graph.addVertex(code);
+        vertices[code] = graph.findVertex(code);
+        graph.findVertex(code)->setType(0);
     }
 }
