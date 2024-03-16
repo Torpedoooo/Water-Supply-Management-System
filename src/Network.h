@@ -14,6 +14,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <list>
+#include <ctime>
 
 class Network {
     private:
@@ -24,13 +26,23 @@ class Network {
         std::unordered_map<std::string, Station> stations;
 
 public:
+    //Getters
+    const Graph<std::string> &getGraph() const;
 
     //Parsing functions
     void parseCities(std::string path);
     void parseReservoirs(std::string path);
     void parseStations(std::string path);
     void parsePipes(std::string path);
+
     /////////////////////////
+    void testAndVisit(std::queue< Vertex<std::string>*> &q, Edge<std::string> *e, Vertex<std::string> *w, double residual);
+    bool findAugmentingPath(Graph<std::string> *g, Vertex<std::string> *s, Vertex<std::string> *t);
+    double findMinResidualAlongPath(Vertex<std::string> *s, Vertex<std::string> *t);
+    std::list<std::pair<std::string,double>> globalEdmondsKarp();
+    void cityEdmondsKarp(std::string CityCode);
+    void augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *t, double f);
+    void calculate_water_needs();
 };
 
 

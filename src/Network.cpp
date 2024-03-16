@@ -1,5 +1,6 @@
+#include <cfloat>
 #include "Network.h"
-
+#include <list>
 
 void Network::parseCities(std::string path){
     std::ifstream file(path);
@@ -47,6 +48,7 @@ void Network::parseCities(std::string path){
         graph.addVertex(code);
         vertices[code] = graph.findVertex(code);
         vertices[code]->setType(2);
+
     }
 }
 
@@ -176,5 +178,181 @@ void Network::parsePipes(std::string path) {
             graph.addEdge(source,dest, capacity);
             graph.addEdge(dest,source, capacity);
         }
+    }
+
+}
+
+void Network::testAndVisit(std::queue< Vertex<std::string>*> &q, Edge<std::string> *e, Vertex<std::string> *w, double residual) {
+// Check if the vertex 'w' is not visited and there is residual capacity
+    if (! w->isVisited() && residual > 0) {
+// Mark 'w' as visited, set the path through which it was reached, and enqueue it
+        w->setVisited(true);
+        w->setPath(e); //confirm that vertex w is reached through edge e
+        q.push(w);
+    }
+}
+// Function to find an augmenting path using Breadth-First Search
+bool Network::findAugmentingPath(Graph<std::string> *g, Vertex<std::string> *s, Vertex<std::string> *t) {
+// Mark all vertices as not visited
+    for(auto v : g->getVertexSet()) {
+        v->setVisited(false);
+    }
+// Mark the source vertex as visited and enqueue it
+    s->setVisited(true);
+    std::queue<Vertex<std::string> *> q;
+    q.push(s);
+// BFS to find an augmenting path
+    while( ! q.empty() && ! t->isVisited()) {
+        auto v = q.front();
+        q.pop();
+// Process outgoing edges
+        for(auto e: v->getAdj()) {
+            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+        }
+// Process incoming edges
+        for(auto e: v->getIncoming()) {
+            testAndVisit(q, e, e->getOrig(), e->getFlow()); //process residual edges
+        }
+    }
+// Return true if a path to the target is found, false otherwise
+    return t->isVisited();
+}
+// Function to find the minimum residual capacity along the augmenting path
+double Network::findMinResidualAlongPath(Vertex<std::string> *s, Vertex<std::string> *t) { //find bottleneck
+    double f = INF;
+// Traverse the augmenting path to find the minimum residual capacity
+    for (auto v = t; v != s; ) {
+        auto e = v->getPath(); //check the edge associated wih the vertex
+        if (e->getDest() == v) { //forward edge, the edge is pointing to v
+            f = std::min(f, e->getWeight() - e->getFlow()); //residual capacity is c(u,v)-f(u,v)
+            v = e->getOrig(); //next vertex to see is the one that got to v
+        }
+        else { //residual edge
+            f = std::min(f, e->getFlow()); //residual capacity is the value of the residual edge
+            v = e->getDest(); //next vertex to see is the one that v is pointing to
+        }
+    }
+// Return the minimum residual capacity
+    return f;
+}
+// Function to augment flow along the augmenting path with the given flow value
+
+void Network::augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *t, double f) {
+// Traverse the augmenting path and update the flow values accordingly
+    for (auto v = t; v != s; ) {
+        auto e = v->getPath();
+        double flow = e->getFlow();
+        if (e->getDest() == v) {  //if not residual edge
+            e->setFlow(flow + f);
+            v = e->getOrig();
+        }
+        else { //if residual edge
+            e->setFlow(flow - f);
+            v = e->getDest();
+        }
+    }
+}
+//0: Reservoir / 1: Station / 2:City
+std::list<std::pair<std::string,double>> Network::globalEdmondsKarp() {
+    Graph<std::string> g = this->graph;
+    g.addVertex("SS");
+    g.addVertex("ST");
+
+    for (Vertex<std::string> *v : g.getVertexSet()) {
+        if (v->getType() == 0) {
+            g.addEdge("SS", v->getInfo(), INF);
+        }
+        else if (v->getType() == 2) {
+            g.addEdge(v->getInfo(), "ST", INF);
+        }
+    }
+
+// Find source and target vertices in the graph
+    Vertex<std::string>* s = g.findVertex("SS");
+    Vertex<std::string>* t = g.findVertex("ST");
+// Validate source and target vertices
+    if (s == nullptr || t == nullptr || s == t)
+        throw std::logic_error("Invalid source and/or target vertex");
+// Initialize flow on all edges to 0
+    for (auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
+        }
+    }
+// While there is an augmenting path, augment the flow along the path
+    while( findAugmentingPath(&g, s, t) ) {
+        double f = findMinResidualAlongPath(s, t);
+        augmentFlowAlongPath(s, t, f);
+    }
+    std::list<std::pair<std::string,double>> lista;
+
+    std::ostringstream path_out;
+
+    std::time_t tw = std::time(0);   // get time now
+    std::tm* now = std::localtime(&tw);
+    path_out << "../output/maxflow-" << now->tm_hour << ":" << now->tm_min << "-" << now->tm_mday << "-" << now->tm_mon+1 << "-" << now->tm_year+1900 << ".csv";
+    std::string out_path = path_out.str();
+
+    std::ofstream file(out_path.c_str(),std::ios::app);
+
+    file << "City,Code,WaterReceived\n";
+    for(Edge<std::string> *e : t->getIncoming()) {
+        lista.emplace_back(e->getOrig()->getInfo(),e->getFlow());
+        file << cities[e->getOrig()->getInfo()].getCity()<<
+             "," <<cities[e->getOrig()->getInfo()].getCode()<<
+             ","<< e->getFlow()<<"\n";
+
+    }
+    return lista;
+}
+//0: Reservoir / 1: Station / 2:City
+
+
+void Network::cityEdmondsKarp(std::string CityCode) {
+    Graph<std::string> g = this->graph;
+    Vertex<std::string>* target_city = vertices[CityCode];
+    g.addVertex("SS");
+    g.addVertex("ST");
+
+    for (Vertex<std::string> *v : g.getVertexSet()) {
+        if (v->getType() == 0) {
+            g.addEdge("SS", v->getInfo(), reservoirs[v->getInfo()].get_max_delivery());
+        }
+        else if (v==target_city) {
+            g.addEdge(v->getInfo(), "ST", cities[v->getInfo()].getDemand());
+        }
+    }
+
+// Find source and target vertices in the graph
+    Vertex<std::string>* s = g.findVertex("SS");
+    Vertex<std::string>* t = g.findVertex("ST");
+// Validate source and target vertices
+    if (s == nullptr || t == nullptr || s == t)
+        throw std::logic_error("Invalid source and/or target vertex");
+// Initialize flow on all edges to 0
+    for (auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
+        }
+    }
+// While there is an augmenting path, augment the flow along the path
+    while( findAugmentingPath(&g, s, t) ) {
+        double f = findMinResidualAlongPath(s, t);
+        augmentFlowAlongPath(s, t, f);
+    }
+
+    for(Edge<std::string> *e : t->getIncoming()) {
+        std::cout<< cities[e->getOrig()->getInfo()].getCity()<<
+                 " - " <<cities[e->getOrig()->getInfo()].getCode()<<
+                 " - "<< e->getFlow()<<"\n";
+    }
+}
+void Network::calculate_water_needs(){
+    std::list<std::pair<std::string,double>> lista = globalEdmondsKarp();
+    for (auto pair : lista) {
+         double remaining_demand=cities[pair.first].getDemand()-pair.second;
+            if (remaining_demand>0) {
+                std::cout << "City: " << cities[pair.first].getCity() << " - " << cities[pair.first].getCode() << " - " << remaining_demand << "\n";
+            }
     }
 }

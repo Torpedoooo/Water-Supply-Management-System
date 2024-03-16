@@ -55,7 +55,7 @@ protected:
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     unsigned int indegree; // used by topsort
     double dist = 0;
-    int type; //0: Reservoir / 1: Station / 2:City
+    int type=-1; //0: Reservoir / 1: Station / 2:City
     Edge<T> *path = nullptr;
 
     std::vector<Edge<T> *> incoming; // incoming edges
