@@ -18,6 +18,8 @@ add_executable(GraphProject
         src/main.cpp
         src/Data.cpp
         src/Data.h
+        src/data_structures/Graph.h
+        src/data_structures/MutablePriorityQueue.h
 )
 
 # Doxygen Build
