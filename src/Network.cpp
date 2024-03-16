@@ -46,7 +46,7 @@ void Network::parseCities(std::string path){
         cities[code] = current_city;
         graph.addVertex(code);
         vertices[code] = graph.findVertex(code);
-        graph.findVertex(code)->setType(2);
+        vertices[code]->setType(2);
     }
 }
 
@@ -84,7 +84,7 @@ void Network::parseStations(std::string path){
         stations[code]=station;
         graph.addVertex(code);
         vertices[code] = graph.findVertex(code);
-        graph.findVertex(code)->setType(1);
+        vertices[code]->setType(1);
     }
 }
 
@@ -133,7 +133,7 @@ void Network::parseReservoirs(std::string path) {
         reservoirs[code]=current_reservoir;
         graph.addVertex(code);
         vertices[code] = graph.findVertex(code);
-        graph.findVertex(code)->setType(0);
+        vertices[code]->setType(0);
     }
 }
 
