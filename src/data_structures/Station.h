@@ -9,7 +9,7 @@
 
 class Station {
     private:
-        std::string id;
+        int id;
         std::string code;
 
 };

@@ -7,7 +7,8 @@
 
 #include <string>
 
-class City {
+class City{
+
 };
 
 
