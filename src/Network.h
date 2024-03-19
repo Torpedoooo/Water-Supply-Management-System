@@ -39,11 +39,13 @@ public:
     void testAndVisit(std::queue< Vertex<std::string>*> &q, Edge<std::string> *e, Vertex<std::string> *w, double residual);
     bool findAugmentingPath(Graph<std::string> *g, Vertex<std::string> *s, Vertex<std::string> *t);
     double findMinResidualAlongPath(Vertex<std::string> *s, Vertex<std::string> *t);
-    std::list<std::pair<std::string,double>> globalEdmondsKarp();
+    std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g);
     void cityEdmondsKarp(std::string CityCode);
     void augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *t, double f);
-    std::list<std::pair<std::string,double>> calculate_water_needs();
-    std::list<std::tuple<std::string,double,int>> reservoir_out(std::string res_code, std::list<std::pair<std::string,double>> lista);
+    std::list<std::pair<std::string,double>> calculate_water_needs(Graph<std::string>g);
+    std::list<std::tuple<std::string,double,int>> vertex_out(std::string res_code, std::list<std::pair<std::string,double>> lista,Graph<std::string>g);
+    std::list<std::string> findNonCriticalPumpingStations();
+    std::list<Edge<std::string>> getCriticalPipesForCity(std::string city_code);
 };
 
 

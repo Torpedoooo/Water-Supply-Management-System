@@ -1,6 +1,12 @@
 #include <cfloat>
 #include "Network.h"
 #include <list>
+#include <map>
+
+const Graph<std::string> &Network::getGraph() const {
+    return graph;
+}
+
 
 void Network::parseCities(std::string path){
     std::ifstream file(path);
@@ -253,8 +259,7 @@ void Network::augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *
     }
 }
 //0: Reservoir / 1: Station / 2:City
-std::list<std::pair<std::string,double>> Network::globalEdmondsKarp() {
-    Graph<std::string> g = this->graph;
+std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::string> g) {
     g.addVertex("SS");
     g.addVertex("ST");
 
@@ -346,8 +351,8 @@ void Network::cityEdmondsKarp(std::string CityCode) {
                  " - "<< e->getFlow()<<"\n";
     }
 }
-std::list<std::pair<std::string,double>> Network::calculate_water_needs(){
-    std::list<std::pair<std::string,double>> lista = this->globalEdmondsKarp();
+std::list<std::pair<std::string,double>> Network::calculate_water_needs(Graph<std::string> g){
+    std::list<std::pair<std::string,double>> lista = globalEdmondsKarp(g);
     std::list<std::pair<std::string,double>> return_list;
     for (auto pair : lista) {
          double met_demand = pair.second - cities[pair.first].getDemand(); //if negative, it means that the city is not receiving enough water
@@ -358,14 +363,13 @@ std::list<std::pair<std::string,double>> Network::calculate_water_needs(){
 
 
 //List of tuples: City, WaterReceived, MetDemand
-std::list<std::tuple<std::string,double,int>> Network::reservoir_out(std::string res_code, std::list<std::pair<std::string,double>> lista){
-    Network network = *this;
-    network.graph.removeVertex(res_code);
-    auto new_list = network.calculate_water_needs();
+std::list<std::tuple<std::string,double,int>> Network::vertex_out(std::string res_code, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
+    g.removeVertex(res_code);
+    auto new_list = calculate_water_needs(g);
     std::list<std::tuple<std::string,double,int>> return_list;
     for (auto pair : new_list){
         auto it = std::find_if(lista.begin(), lista.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
-        if(it != lista.end() && pair.second-it->second!=0){
+        if(it != lista.end()){
             if (it->second>=0 && pair.second<0){
                 return_list.emplace_back(pair.first,pair.second-it->second,1); // 1 If met demand and now doesnt
             }
@@ -381,4 +385,46 @@ std::list<std::tuple<std::string,double,int>> Network::reservoir_out(std::string
         }
     }
     return return_list;
+}
+
+std::list<std::string> Network::findNonCriticalPumpingStations(){
+    std::list<std::string> non_critical_stations;
+    auto current_edmonds_list = calculate_water_needs(graph);
+    for (auto station : stations){
+
+        Vertex<std::string>* station_vertex = graph.findVertex(station.first);
+        if (station_vertex == nullptr) {
+            continue;
+        }
+
+        std::map<Edge<std::string>*, double> original_weights;
+        std::map<Edge<std::string>*, double> original_flows;
+        for (auto edge : station_vertex->getAdj()) {
+            original_weights[edge] = edge->getWeight();
+            original_flows[edge] = edge->getFlow();
+            edge->setWeight(0);
+            edge->setFlow(0);
+        }
+        for (auto edge : station_vertex->getIncoming()) {
+            original_weights[edge] = edge->getWeight();
+            original_flows[edge] = edge->getFlow();
+            edge->setWeight(0);
+            edge->setFlow(0);
+        }
+
+        auto new_list = calculate_water_needs(graph);
+        if (std::equal(new_list.begin(), new_list.end(), current_edmonds_list.begin())) {
+            non_critical_stations.push_back(station.first);
+        }
+
+        for (auto edge : station_vertex->getAdj()) {
+            edge->setWeight(original_weights[edge]);
+            edge->setFlow(original_flows[edge]);
+        }
+        for (auto edge : station_vertex->getIncoming()) {
+            edge->setWeight(original_weights[edge]);
+            edge->setFlow(original_flows[edge]);
+        }
+    }
+    return non_critical_stations;
 }

@@ -82,6 +82,11 @@ public:
     void setSelected(bool selected);
     void setReverse(Edge<T> *reverse);
     void setFlow(double flow);
+
+    void setWeight(double i) {
+        weight = i;
+    }
+
 protected:
     Vertex<T> * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity
