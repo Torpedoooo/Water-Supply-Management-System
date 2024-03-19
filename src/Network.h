@@ -42,7 +42,8 @@ public:
     std::list<std::pair<std::string,double>> globalEdmondsKarp();
     void cityEdmondsKarp(std::string CityCode);
     void augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *t, double f);
-    void calculate_water_needs();
+    std::list<std::pair<std::string,double>> calculate_water_needs();
+    std::list<std::tuple<std::string,double,int>> reservoir_out(std::string res_code, std::list<std::pair<std::string,double>> lista);
 };
 
 

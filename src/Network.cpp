@@ -346,12 +346,39 @@ void Network::cityEdmondsKarp(std::string CityCode) {
                  " - "<< e->getFlow()<<"\n";
     }
 }
-void Network::calculate_water_needs(){
-    std::list<std::pair<std::string,double>> lista = globalEdmondsKarp();
+std::list<std::pair<std::string,double>> Network::calculate_water_needs(){
+    std::list<std::pair<std::string,double>> lista = this->globalEdmondsKarp();
+    std::list<std::pair<std::string,double>> return_list;
     for (auto pair : lista) {
-         double remaining_demand=cities[pair.first].getDemand()-pair.second;
-            if (remaining_demand>0) {
-                std::cout << "City: " << cities[pair.first].getCity() << " - " << cities[pair.first].getCode() << " - " << remaining_demand << "\n";
-            }
+         double met_demand = pair.second - cities[pair.first].getDemand(); //if negative, it means that the city is not receiving enough water
+         return_list.emplace_back(pair.first,met_demand);
     }
+    return return_list;
+}
+
+
+//List of tuples: City, WaterReceived, MetDemand
+std::list<std::tuple<std::string,double,int>> Network::reservoir_out(std::string res_code, std::list<std::pair<std::string,double>> lista){
+    Network network = *this;
+    network.graph.removeVertex(res_code);
+    auto new_list = network.calculate_water_needs();
+    std::list<std::tuple<std::string,double,int>> return_list;
+    for (auto pair : new_list){
+        auto it = std::find_if(lista.begin(), lista.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
+        if(it != lista.end() && pair.second-it->second!=0){
+            if (it->second>=0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,1); // 1 If met demand and now doesnt
+            }
+            else if (it->second>=0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,2); // 2 If met demand and still does
+            }
+            else if (it->second<0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,3); // 3 If not met demand and still doesnt
+            }
+            else if (it->second<0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,4); // 4 If not met demand and now does
+            }
+        }
+    }
+    return return_list;
 }

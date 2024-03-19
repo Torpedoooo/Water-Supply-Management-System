@@ -13,6 +13,9 @@ int main() {
     network.globalEdmondsKarp();
     std::cout << "---------------------\n";
     network.calculate_water_needs();
-
+    auto lista = network.reservoir_out("R_1",network.calculate_water_needs());
+    for (auto pair : lista) {
+        std::cout << std::get<0>(pair) << " " << std::get<1>(pair) << " " << std::get<2>(pair) << std::endl;
+    }
     return 0;
 }
