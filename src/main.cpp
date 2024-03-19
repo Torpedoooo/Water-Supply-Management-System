@@ -10,6 +10,8 @@ int main() {
     network.parseReservoirs("../src/dataset/large/Reservoir.csv");
     network.parseStations("../src/dataset/large/Stations.csv");
     network.parsePipes("../src/dataset/large/Pipes.csv");
+    network.globalEdmondsKarp();
+    std::cout << "---------------------\n";
     network.calculate_water_needs();
 
     return 0;

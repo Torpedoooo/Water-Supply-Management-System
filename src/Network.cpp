@@ -260,10 +260,10 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp() {
 
     for (Vertex<std::string> *v : g.getVertexSet()) {
         if (v->getType() == 0) {
-            g.addEdge("SS", v->getInfo(), INF);
+            g.addEdge("SS", v->getInfo(), reservoirs[v->getInfo()].get_max_delivery());
         }
         else if (v->getType() == 2) {
-            g.addEdge(v->getInfo(), "ST", INF);
+            g.addEdge(v->getInfo(), "ST", cities[v->getInfo()].getDemand());
         }
     }
 
@@ -301,7 +301,6 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp() {
         file << cities[e->getOrig()->getInfo()].getCity()<<
              "," <<cities[e->getOrig()->getInfo()].getCode()<<
              ","<< e->getFlow()<<"\n";
-
     }
     return lista;
 }
