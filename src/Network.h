@@ -46,7 +46,8 @@ public:
     std::list<std::tuple<std::string,double,int>> vertex_out(std::string res_code, std::list<std::pair<std::string,double>> lista,Graph<std::string>g);
     std::list<std::string> findNonCriticalPumpingStations();
     std::list<Edge<std::string>> getCriticalPipesForCity(std::string city_code);
-};
+    std::list<std::tuple<std::string,double,int>> pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g);
+    };
 
 
 #endif //GRAPHPROJECT_NETWORK_H
