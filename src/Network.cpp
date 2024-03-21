@@ -457,3 +457,34 @@ std::list<std::string> Network::findNonCriticalPumpingStations(){
     }
     return non_critical_stations;
 }
+//for the first function, bidirectional is just one pipe
+std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
+    auto source = g.findVertex(source_info);
+    auto target = g.findVertex(target_info);
+    for(auto edge : source->getAdj()){
+        if (edge->getDest() == target){
+            g.removeEdge(source_info,target_info);
+        }
+    }
+
+    auto new_list = calculate_water_needs(g);
+    std::list<std::tuple<std::string,double,int>> return_list;
+    for (auto pair : new_list){
+        auto it = std::find_if(lista.begin(), lista.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
+        if(it != lista.end()){
+            if (it->second>=0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,1); // 1 If met demand and now doesnt
+            }
+            else if (it->second>=0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,2); // 2 If met demand and still does
+            }
+            else if (it->second<0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,3); // 3 If not met demand and still doesnt
+            }
+            else if (it->second<0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,4); // 4 If not met demand and now does
+            }
+        }
+    }
+    return return_list;
+}

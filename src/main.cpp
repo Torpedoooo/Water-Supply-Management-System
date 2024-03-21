@@ -11,10 +11,7 @@ int main() {
     network.parseStations("../src/dataset/large/Stations.csv");
     network.parsePipes("../src/dataset/large/Pipes.csv");
     std::cout << "---------------------\n";
-    auto lista = network.findNonCriticalPumpingStations();
-    for (auto &i : lista) {
-        std::cout << i << std::endl;
-    }
+
 
     std:: cout << "---------------------\n";
     auto lista2 = network.vertex_out("PS_55",network.calculate_water_needs(network.getGraph()),network.getGraph());
@@ -34,5 +31,6 @@ int main() {
     for (auto &i : lista4) {
         std::cout << i.first << " " << i.second << std::endl;
     }*/
+
     return 0;
 }
