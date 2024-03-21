@@ -364,7 +364,26 @@ std::list<std::pair<std::string,double>> Network::calculate_water_needs(Graph<st
 
 //List of tuples: City, WaterReceived, MetDemand
 std::list<std::tuple<std::string,double,int>> Network::vertex_out(std::string res_code, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
-    g.removeVertex(res_code);
+    Vertex<std::string>* vertex = graph.findVertex(res_code);
+    if (vertex == nullptr) {
+        throw std::logic_error("Vertex not found");
+    }
+
+    std::map<Edge<std::string>*, double> original_weights;
+    std::map<Edge<std::string>*, double> original_flows;
+    for (auto edge : vertex->getAdj()) {
+        original_weights[edge] = edge->getWeight();
+        original_flows[edge] = edge->getFlow();
+        edge->setWeight(0);
+        edge->setFlow(0);
+    }
+    for (auto edge : vertex->getIncoming()) {
+        original_weights[edge] = edge->getWeight();
+        original_flows[edge] = edge->getFlow();
+        edge->setWeight(0);
+        edge->setFlow(0);
+    }
+
     auto new_list = calculate_water_needs(g);
     std::list<std::tuple<std::string,double,int>> return_list;
     for (auto pair : new_list){
@@ -384,6 +403,16 @@ std::list<std::tuple<std::string,double,int>> Network::vertex_out(std::string re
             }
         }
     }
+
+    for (auto edge : vertex->getAdj()) {
+        edge->setWeight(original_weights[edge]);
+        edge->setFlow(original_flows[edge]);
+    }
+    for (auto edge : vertex->getIncoming()) {
+        edge->setWeight(original_weights[edge]);
+        edge->setFlow(original_flows[edge]);
+    }
+
     return return_list;
 }
 
