@@ -459,13 +459,20 @@ std::list<std::string> Network::findNonCriticalPumpingStations(){
 }
 //for the first function, bidirectional is just one pipe
 std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
-    auto source = g.findVertex(source_info);
-    auto target = g.findVertex(target_info);
-    for(auto edge : source->getAdj()){
-        if (edge->getDest() == target){
-            g.removeEdge(source_info,target_info);
+    auto source = graph.findVertex(source_info);
+    auto target = graph.findVertex(target_info);
+    std::map<Edge<std::string>*, double> original_weights;
+    std::map<Edge<std::string>*, double> original_flows;
+
+    for (auto edge : source->getAdj()) {
+        if(edge->getDest()==target) {
+            original_weights[edge] = edge->getWeight();
+            original_flows[edge] = edge->getFlow();
+            edge->setWeight(0);
+            edge->setFlow(0);
         }
     }
+
 
     auto new_list = calculate_water_needs(g);
     std::list<std::tuple<std::string,double,int>> return_list;
@@ -486,5 +493,13 @@ std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string sour
             }
         }
     }
+    for (auto edge : source->getAdj()) {
+        if(edge->getDest()==target) {
+            edge->setWeight(original_weights[edge]);
+            edge->setFlow(original_flows[edge]);
+        }
+    }
+
+
     return return_list;
 }
