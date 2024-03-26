@@ -307,6 +307,11 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::s
              "," <<cities[e->getOrig()->getInfo()].getCode()<<
              ","<< e->getFlow()<<"\n";
     }
+    file.close();
+
+    g.removeVertex("SS");
+    g.removeVertex("ST");
+
     return lista;
 }
 //0: Reservoir / 1: Station / 2:City
@@ -350,7 +355,11 @@ void Network::cityEdmondsKarp(std::string CityCode) {
                  " - " <<cities[e->getOrig()->getInfo()].getCode()<<
                  " - "<< e->getFlow()<<"\n";
     }
+    g.removeVertex("SS");
+    g.removeVertex("ST");
 }
+
+
 std::list<std::pair<std::string,double>> Network::calculate_water_needs(Graph<std::string> g){
     std::list<std::pair<std::string,double>> lista = globalEdmondsKarp(g);
     std::list<std::pair<std::string,double>> return_list;
@@ -458,7 +467,7 @@ std::list<std::string> Network::findNonCriticalPumpingStations(){
     return non_critical_stations;
 }
 //for the first function, bidirectional is just one pipe
-std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
+/*std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
     auto source = g.findVertex(source_info);
     auto target = g.findVertex(target_info);
     for(auto edge : source->getAdj()){
@@ -487,4 +496,59 @@ std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string sour
         }
     }
     return return_list;
+}*/
+
+
+void Network::pipe_out_impact(Graph<std::string> g){
+    auto initial_needs = calculate_water_needs(g);
+
+    for (Vertex<std::string> *v : g.getVertexSet()) {
+        for (Edge<std::string> *e: v->getAdj()) {
+            e->setSelected(false);
+        }
+    }
+
+    for (Vertex<std::string> *v : g.getVertexSet()){
+        for (Edge<std::string > *e : v->getAdj()){
+            if (!e->isSelected()){
+                e->setSelected(true);
+                double original_weight = e->getWeight();
+                double original_flow = e->getFlow();
+                e->setWeight(0);
+                e->setFlow(0);
+                auto new_list = calculate_water_needs(g);
+                //Compare the new list with the initial list, add the pipes with respective impacts as a value to the key city in the map, the second value is the difference beetween previous and current water received using the same tags 1,2,3,4 as above the edge doesnt need to come from the city
+                for (auto pair : new_list){
+                    auto it = std::find_if(initial_needs.begin(), initial_needs.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
+                    if(it != initial_needs.end()){
+                        if (it->second>=0 && pair.second<0){
+                            cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,1));
+                        }
+                        else if (it->second>=0 && pair.second>=0){
+                            cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,2));
+                        }
+                        else if (it->second<0 && pair.second<0){
+                            cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,3));
+                        }
+                        else if (it->second<0 && pair.second>=0){
+                            cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,4));
+                        }
+                    }
+                }
+
+                e->setWeight(original_weight);
+                e->setFlow(original_flow);
+            }
+        }
+    }
+}
+
+std::list<std::pair<std::string,std::string>> Network::getCriticalPipesForCity(std::string city_code){
+    std::list<std::pair<std::string,std::string>> critical_pipes;
+    for (auto pipe : cities_impacted_by_pipes[city_code]){
+        if (std::get<2>(pipe) == 1){
+            critical_pipes.emplace_back(std::get<0>(pipe));
+        }
+    }
+    return critical_pipes;
 }

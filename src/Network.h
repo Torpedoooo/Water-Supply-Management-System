@@ -24,6 +24,7 @@ class Network {
         std::unordered_map<std::string, Reservoir> reservoirs;
         std::unordered_map<std::string, City> cities;
         std::unordered_map<std::string, Station> stations;
+        std::unordered_map<std::string,std::list<std::tuple<std::pair<std::string,std::string>,double,int>>> cities_impacted_by_pipes;
 
 public:
     //Getters
@@ -45,8 +46,9 @@ public:
     std::list<std::pair<std::string,double>> calculate_water_needs(Graph<std::string>g);
     std::list<std::tuple<std::string,double,int>> vertex_out(std::string res_code, std::list<std::pair<std::string,double>> lista,Graph<std::string>g);
     std::list<std::string> findNonCriticalPumpingStations();
-    std::list<Edge<std::string>> getCriticalPipesForCity(std::string city_code);
+    std::list<std::pair<std::string,std::string>> getCriticalPipesForCity(std::string city_code);
     std::list<std::tuple<std::string,double,int>> pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g);
+    void pipe_out_impact(Graph<std::string> g);
     };
 
 
