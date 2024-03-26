@@ -24,6 +24,10 @@ add_executable(GraphProject
         src/data_structures/Reservoir.h
         src/data_structures/Station.h
         src/Network.cpp
+        src/Menu.cpp
+        src/Menu.h
+        src/utils.cpp
+        src/utils.h
 )
 
 # Doxygen Build

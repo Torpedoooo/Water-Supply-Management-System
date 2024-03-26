@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Network.h"
+#include "Menu.h"
 
 int main() {
     Network network;
@@ -11,8 +12,9 @@ int main() {
     network.parseStations("../src/dataset/large/Stations.csv");
     network.parsePipes("../src/dataset/large/Pipes.csv");
     network.pipe_out_impact(network.getGraph());
+    showMenu(network);
 
-    std:: cout << "---------------------\n";
+    /*std:: cout << "---------------------\n";
     auto lista2 = network.vertex_out("PS_55",network.calculate_water_needs(network.getGraph()),network.getGraph());
     for (auto &i : lista2) {
         std::cout << std::get<0>(i) << " " << std::get<1>(i) << " " << std::get<2>(i) << std::endl;
@@ -23,11 +25,6 @@ int main() {
     for (auto &i : lista3) {
         std::cout << std::get<0>(i) << " " << std::get<1>(i) << " " << std::get<2>(i) << std::endl;
     }
-    std:: cout << "---------------------\n";
-    auto lista1 = network.pipe_out("R_9","PS_36",network.calculate_water_needs(network.getGraph()),network.getGraph());
-    for (auto tuplo : lista1){
-        std::cout<< std::get<0>(tuplo)<<' '<<std::get<1>(tuplo)<<' '<<std::get<2>(tuplo)<<'\n';
-    }
 
     std::cout << "---------------------\n";
     auto lista4 = network.globalEdmondsKarp(network.getGraph());
@@ -36,11 +33,10 @@ int main() {
     }
 
     std::cout << "---------------------\n";
-    auto lista5=network.getCriticalPipesForCity("C_18");
+    auto lista5=network.getCriticalPipesForCity("C_1");
     for (auto &i : lista5) {
         std::cout << i.first << " " << i.second << std::endl;
-    }
-
+    }*/
 
     return 0;
 }
