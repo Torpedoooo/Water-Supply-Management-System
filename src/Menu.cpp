@@ -74,7 +74,8 @@ void showCityEdmondsKarp(Network network, std::string city){
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
     std::cout << "            "<< city <<" Flow" << "\n";
     std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
-    network.cityEdmondsKarp(city);
+    auto par = network.cityEdmondsKarp(city);
+    std::cout << "The flow of " << city << " is " << par.second << std::endl;
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << "Press any key to go back to the menu." << "\n";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -140,7 +141,7 @@ void showMetrics(Network network){
         case 2:
             std::cout << "Enter the city code: ";
             std::cin >> city;
-            while (std::cin.fail()){
+            while (std::cin.fail() || !city_exists(network, city)){
                 std::cout << "Invalid choice. Please try again." << "\n";
                 std::cin.clear();
                 std::cin.ignore(256,'\n');
