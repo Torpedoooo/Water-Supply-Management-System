@@ -1,7 +1,0 @@
-# ninja log v5
-1	340	1711475904221183640	build.ninja	30043a7848c8dc09
-3	2438	1711475737235963389	CMakeFiles/GraphProject.dir/src/Menu.cpp.o	f44c9e0c1955fcc6
-2	2506	1711475737303963880	CMakeFiles/GraphProject.dir/src/main.cpp.o	956b22e4741bd6f
-3456	3683	1711475738479972366	GraphProject	f5db14e811f4ec79
-2	3456	1711475738251970721	CMakeFiles/GraphProject.dir/src/Network.cpp.o	59f5064d7201b896
-3	1377	1711475736175955742	CMakeFiles/GraphProject.dir/src/utils.cpp.o	fffce1449fa2cb30
