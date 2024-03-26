@@ -177,13 +177,13 @@ void showReservoirOut(Network network, std::string reservoir){
            std::cout << std::get<0>(i) << " met demand and now doesn't. It lost " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
        } else if (std::get<2>(i) == 2){
            if (std::get<1>(i)==0){
-               std::cout << std::get<0>(i) << " wasn't impacted by the reservoir being out." << "\n";
+               std::cout << std::get<0>(i) << " wasn't impacted by the removal." << "\n";
            } else if (std::get<1>(i) < 0){
                std::cout << std::get<0>(i) << " met demands and still meets, but lost:  " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
            }
        } else if (std::get<2>(i) == 3){
            if (std::get<1>(i)==0){
-               std::cout << std::get<0>(i) << " wasn't impacted by the reservoir being out." << "\n";
+               std::cout << std::get<0>(i) << " wasn't impacted by the removal." << "\n";
            }else if (std::get<1>(i) < 0){
            std::cout << std::get<0>(i) << " didn't meet demands and still doesnt and lost: " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
            }
@@ -196,29 +196,15 @@ void showReservoirOut(Network network, std::string reservoir){
     showReliability(network);
 }
 
-void showPumpingStationMaintenance(Network network, std::string station) {
+void showPumpingStationMaintenance(Network network) {
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
-    std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
-    std::cout << "         "<< station <<" Impact" << "\n";
-    std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
-    auto lista = network.vertex_out(station,network.calculate_water_needs(network.getGraph()),network.getGraph());
+    std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
+    std::cout << "  Pumping stations that can be removed" << "\n";
+    std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
+    auto lista = network.findNonCriticalPumpingStations();
     for (auto &i : lista) {
-        if (std::get<2>(i) == 1){
-            std::cout << std::get<0>(i) << " met demand and now doesn't. It lost " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
-        } else if (std::get<2>(i) == 2){
-            if (std::get<1>(i)==0){
-                std::cout << std::get<0>(i) << " wasn't impacted by the reservoir being out." << "\n";
-            } else if (std::get<1>(i) < 0){
-                std::cout << std::get<0>(i) << " met demands and still meets, but lost:  " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
-            }
-        } else if (std::get<2>(i) == 3){
-            if (std::get<1>(i)==0){
-                std::cout << std::get<0>(i) << " wasn't impacted by the reservoir being out." << "\n";
-            }else if (std::get<1>(i) < 0){
-                std::cout << std::get<0>(i) << " didn't meet demands and still doesnt and lost: " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
-            }
-        }
+        std::cout << i << "\n";
     }
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << "Press any key to go back to the menu." << "\n";
@@ -251,7 +237,7 @@ void showReliability(Network network) {
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
     std::cout << "                Menu" << "\n";
     std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
-    std::cout << "1. Reservoir out" << "\n";
+    std::cout << "1. Reservoir/Pumping Station out" << "\n";
     std::cout << "2. Pumping Station Maintenance" << "\n";
     std::cout << "3. Critical Pipes for City" << "\n";
     std::cout << "4. Go back" << "\n";
@@ -270,35 +256,24 @@ void showReliability(Network network) {
         std::cin >> choice;
     }
     std::string reservoir;
-    std::string station;
     std::string city;
 
     switch(choice) {
         case 1:
-            std::cout << "Enter the reservoir code: ";
+            std::cout << "Enter the reservoir/station code: ";
             std::cin.clear();
             std::cin >> reservoir;
-            while (std::cin.fail() || !reservoir_exists(network,reservoir)){
+            while (std::cin.fail() || !(reservoir_exists(network,reservoir) || station_exists(network,reservoir))){
                 std::cout << "Invalid choice. Please try again." << "\n";
                 std::cin.clear();
                 std::cin.ignore(256,'\n');
-                std::cout << "Enter the reservoir code: ";
+                std::cout << "Enter the reservoir/station code: ";
                 std::cin >> reservoir;
             }
             showReservoirOut(network,reservoir);
             break;
         case 2:
-            std::cout << "Enter the station code: ";
-            std::cin.clear();
-            std::cin >> station;
-            while (std::cin.fail() || !station_exists(network, station)){
-                std::cout << "Invalid choice. Please try again." << "\n";
-                std::cin.clear();
-                std::cin.ignore(256,'\n');
-                std::cout << "Enter the station code: ";
-                std::cin >> station;
-            }
-            showPumpingStationMaintenance(network,station);
+            showPumpingStationMaintenance(network);
             break;
         case 3:
             std::cout << "Enter the city code: ";
