@@ -1,0 +1,379 @@
+\hypertarget{classNetwork}{}\doxysection{Network Class Reference}
+\label{classNetwork}\index{Network@{Network}}
+
+
+{\ttfamily \#include $<$Network.\+h$>$}
+
+
+
+Collaboration diagram for Network\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{classNetwork__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ \& \mbox{\hyperlink{classNetwork_a3f26c4936d496040c0f9eccb17ccf2b2}{get\+Graph}} () const
+\begin{DoxyCompactList}\small\item\em Getter for the network\textquotesingle{}s graph -\/ 0(1) \end{DoxyCompactList}\item 
+const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}} $>$ \& \mbox{\hyperlink{classNetwork_a274008685160cc64dfcadd8a557e134e}{get\+Reservoirs}} () const
+\item 
+const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classCity}{City}} $>$ \& \mbox{\hyperlink{classNetwork_aafa4973a4c44c2c4567682685a88ea62}{get\+Cities}} () const
+\item 
+const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classStation}{Station}} $>$ \& \mbox{\hyperlink{classNetwork_a050cdad9c95c7239114534e0293de9a5}{get\+Stations}} () const
+\item 
+const std\+::unordered\+\_\+map$<$ std\+::string, std\+::list$<$ std\+::tuple$<$ std\+::pair$<$ std\+::string, std\+::string $>$, double, int $>$ $>$ $>$ \& \mbox{\hyperlink{classNetwork_a8709096d304e12b95e8a63b4e07d73de}{get\+Cities\+Impacted\+By\+Pipes}} () const
+\item 
+void \mbox{\hyperlink{classNetwork_a00afa6a87f29349681d1f561a27fe60b}{parse\+Cities}} (std\+::string path)
+\begin{DoxyCompactList}\small\item\em Function to parse the cities file -\/ 0(n $\ast$ V) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classNetwork_a8b3dc507cfaa35e304b2c09ab9f23ed0}{parse\+Reservoirs}} (std\+::string path)
+\item 
+void \mbox{\hyperlink{classNetwork_ac3d1ee5113b21e830f25c4806af689ca}{parse\+Stations}} (std\+::string path)
+\item 
+void \mbox{\hyperlink{classNetwork_a02f811485ce73e04a542b2083485326b}{parse\+Pipes}} (std\+::string path)
+\item 
+void \mbox{\hyperlink{classNetwork_a9e69235b21e3be16bbce8ecfb8fb1132}{test\+And\+Visit}} (std\+::queue$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$ $>$ \&q, \mbox{\hyperlink{classEdge}{Edge}}$<$ std\+::string $>$ $\ast$e, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$w, double residual)
+\item 
+bool \mbox{\hyperlink{classNetwork_a799af91fa17bab345d4eb2f5f55cad15}{find\+Augmenting\+Path}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$s, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$t)
+\item 
+double \mbox{\hyperlink{classNetwork_a1d628791829e51b25c459ecddde891db}{find\+Min\+Residual\+Along\+Path}} (\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$s, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$t)
+\item 
+std\+::list$<$ std\+::pair$<$ std\+::string, double $>$ $>$ \mbox{\hyperlink{classNetwork_a5776994d03350d0f422fc07cb8627e96}{global\+Edmonds\+Karp}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$g)
+\item 
+std\+::pair$<$ std\+::string, double $>$ \mbox{\hyperlink{classNetwork_a5f219b9ec2aac45acd4a443e17427a59}{city\+Edmonds\+Karp}} (std\+::string City\+Code)
+\item 
+void \mbox{\hyperlink{classNetwork_a2dc8b105771d9804ddfc50c49ca203ed}{augment\+Flow\+Along\+Path}} (\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$s, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$t, double f)
+\item 
+std\+::list$<$ std\+::pair$<$ std\+::string, double $>$ $>$ \mbox{\hyperlink{classNetwork_a0db443ad032a1b60fe71ffabee44267a}{calculate\+\_\+water\+\_\+needs}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$g)
+\item 
+std\+::list$<$ std\+::tuple$<$ std\+::string, double, int $>$ $>$ \mbox{\hyperlink{classNetwork_a47cd43123ebd2d338757a2e07ef53d6b}{vertex\+\_\+out}} (std\+::string res\+\_\+code, std\+::list$<$ std\+::pair$<$ std\+::string, double $>$$>$ lista, \mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$g)
+\item 
+std\+::list$<$ std\+::string $>$ \mbox{\hyperlink{classNetwork_a1e0b44136f3639574ced1f683b2d1a29}{find\+Non\+Critical\+Pumping\+Stations}} ()
+\item 
+std\+::list$<$ std\+::tuple$<$ std\+::string, std\+::string, double $>$ $>$ \mbox{\hyperlink{classNetwork_afd6962eac14d0fa53fd49efe20a7a19a}{get\+Critical\+Pipes\+For\+City}} (std\+::string city\+\_\+code)
+\item 
+void \mbox{\hyperlink{classNetwork_a8cfdfcbf26a3bd5dff6b79071c1bfdaa}{pipe\+\_\+out\+\_\+impact}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ g)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ \mbox{\hyperlink{classNetwork_a7955b59932e0ced9e066139e683aa2dc}{graph}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$ $>$ \mbox{\hyperlink{classNetwork_a340f6916c5840e853e3228a999fa480e}{vertices}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}} $>$ \mbox{\hyperlink{classNetwork_a1bab94efdf6fdd9513bc3defd5f27b0b}{reservoirs}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classCity}{City}} $>$ \mbox{\hyperlink{classNetwork_a55ba7f8c6dcbf062a392308b83f9dac7}{cities}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classStation}{Station}} $>$ \mbox{\hyperlink{classNetwork_a90bf77e9926221563068f35a6512e692}{stations}}
+\item 
+std\+::unordered\+\_\+map$<$ std\+::string, std\+::list$<$ std\+::tuple$<$ std\+::pair$<$ std\+::string, std\+::string $>$, double, int $>$ $>$ $>$ \mbox{\hyperlink{classNetwork_ad796d462eb8a7b207fc8c685b151c1ca}{cities\+\_\+impacted\+\_\+by\+\_\+pipes}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classNetwork_a2dc8b105771d9804ddfc50c49ca203ed}\label{classNetwork_a2dc8b105771d9804ddfc50c49ca203ed}} 
+\index{Network@{Network}!augmentFlowAlongPath@{augmentFlowAlongPath}}
+\index{augmentFlowAlongPath@{augmentFlowAlongPath}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{augmentFlowAlongPath()}{augmentFlowAlongPath()}}
+{\footnotesize\ttfamily void Network\+::augment\+Flow\+Along\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{s,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{t,  }\item[{double}]{f }\end{DoxyParamCaption})}
+
+This function is responsible for augmenting the flow along the augmenting path with the given flow value f. It traverses the augmenting path from the target vertex t back to the source vertex s, updating the flow values of the edges accordingly based on the direction of the edges. -\/ O(\+E) 
+\begin{DoxyParams}{Parameters}
+{\em s} & source vertex \\
+\hline
+{\em t} & target vertex \\
+\hline
+{\em f} & flow value to augment along path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a0db443ad032a1b60fe71ffabee44267a}\label{classNetwork_a0db443ad032a1b60fe71ffabee44267a}} 
+\index{Network@{Network}!calculate\_water\_needs@{calculate\_water\_needs}}
+\index{calculate\_water\_needs@{calculate\_water\_needs}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{calculate\_water\_needs()}{calculate\_water\_needs()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::pair$<$std\+::string,double$>$ $>$ Network\+::calculate\+\_\+water\+\_\+needs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g }\end{DoxyParamCaption})}
+
+This function calculates the water received per city vs its demand if a negative value -\/-\/$>$ demand not being met -\/ O(V $\ast$ E²) 
+\begin{DoxyParams}{Parameters}
+{\em g} & the network\textquotesingle{}s graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of pairs (city code, value) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a5f219b9ec2aac45acd4a443e17427a59}\label{classNetwork_a5f219b9ec2aac45acd4a443e17427a59}} 
+\index{Network@{Network}!cityEdmondsKarp@{cityEdmondsKarp}}
+\index{cityEdmondsKarp@{cityEdmondsKarp}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{cityEdmondsKarp()}{cityEdmondsKarp()}}
+{\footnotesize\ttfamily std\+::pair$<$std\+::string,double$>$ Network\+::city\+Edmonds\+Karp (\begin{DoxyParamCaption}\item[{std\+::string}]{City\+Code }\end{DoxyParamCaption})}
+
+Performs an Edmonds-\/\+Karp algorithm to determine the maximum amount of water that can reach a specific city -\/ O(V $\ast$ E²) 
+\begin{DoxyParams}{Parameters}
+{\em City\+Code} & the city to analyse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a pair with City\+Code and the amount of water received 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a799af91fa17bab345d4eb2f5f55cad15}\label{classNetwork_a799af91fa17bab345d4eb2f5f55cad15}} 
+\index{Network@{Network}!findAugmentingPath@{findAugmentingPath}}
+\index{findAugmentingPath@{findAugmentingPath}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{findAugmentingPath()}{findAugmentingPath()}}
+{\footnotesize\ttfamily bool Network\+::find\+Augmenting\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{s,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{t }\end{DoxyParamCaption})}
+
+This function implements the Breadth-\/\+First Search (BFS) algorithm to find an augmenting path in a graph. It starts from a given source vertex s and explores the graph until it reaches the target vertex t or until there are no more unvisited vertices reachable from the source vertex s. -\/ 0(V + E)
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & the provided graph \\
+\hline
+{\em s} & source node \\
+\hline
+{\em t} & target node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return true if a path to the target is found, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a1d628791829e51b25c459ecddde891db}\label{classNetwork_a1d628791829e51b25c459ecddde891db}} 
+\index{Network@{Network}!findMinResidualAlongPath@{findMinResidualAlongPath}}
+\index{findMinResidualAlongPath@{findMinResidualAlongPath}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{findMinResidualAlongPath()}{findMinResidualAlongPath()}}
+{\footnotesize\ttfamily double Network\+::find\+Min\+Residual\+Along\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{s,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{t }\end{DoxyParamCaption})}
+
+This function calculates the minimum residual capacity along the augmenting path found by the BFS algorithm. It traverses the augmenting path from the target vertex t back to the source vertex s, considering both forward and backward edges. -\/ 0(E) 
+\begin{DoxyParams}{Parameters}
+{\em s} & source vertex \\
+\hline
+{\em t} & target vertex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns the minimum residual capacity found. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a1e0b44136f3639574ced1f683b2d1a29}\label{classNetwork_a1e0b44136f3639574ced1f683b2d1a29}} 
+\index{Network@{Network}!findNonCriticalPumpingStations@{findNonCriticalPumpingStations}}
+\index{findNonCriticalPumpingStations@{findNonCriticalPumpingStations}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{findNonCriticalPumpingStations()}{findNonCriticalPumpingStations()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::string$>$ Network\+::find\+Non\+Critical\+Pumping\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Calculates which pumping stations can be temporarily removed without affecting the delivery capacity to all the cities -\/ O((V $\ast$ E²) $\ast$ V) \begin{DoxyReturn}{Returns}
+a list with the codes of the non critical pumping stations 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_aafa4973a4c44c2c4567682685a88ea62}\label{classNetwork_aafa4973a4c44c2c4567682685a88ea62}} 
+\index{Network@{Network}!getCities@{getCities}}
+\index{getCities@{getCities}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getCities()}{getCities()}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classCity}{City}}$>$\& Network\+::get\+Cities (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for the network\textquotesingle{}s cities map. -\/ 0(1) \begin{DoxyReturn}{Returns}
+Returns the network\textquotesingle{}s cities map. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a8709096d304e12b95e8a63b4e07d73de}\label{classNetwork_a8709096d304e12b95e8a63b4e07d73de}} 
+\index{Network@{Network}!getCitiesImpactedByPipes@{getCitiesImpactedByPipes}}
+\index{getCitiesImpactedByPipes@{getCitiesImpactedByPipes}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getCitiesImpactedByPipes()}{getCitiesImpactedByPipes()}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, std\+::list$<$std\+::tuple$<$std\+::pair$<$std\+::string, std\+::string$>$, double, int$>$ $>$ $>$\& Network\+::get\+Cities\+Impacted\+By\+Pipes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classNetwork_afd6962eac14d0fa53fd49efe20a7a19a}\label{classNetwork_afd6962eac14d0fa53fd49efe20a7a19a}} 
+\index{Network@{Network}!getCriticalPipesForCity@{getCriticalPipesForCity}}
+\index{getCriticalPipesForCity@{getCriticalPipesForCity}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getCriticalPipesForCity()}{getCriticalPipesForCity()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::tuple$<$std\+::string,std\+::string,double$>$ $>$ Network\+::get\+Critical\+Pipes\+For\+City (\begin{DoxyParamCaption}\item[{std\+::string}]{city\+\_\+code }\end{DoxyParamCaption})}
+
+Function to access the results generated by \mbox{\hyperlink{classNetwork_a8cfdfcbf26a3bd5dff6b79071c1bfdaa}{pipe\+\_\+out\+\_\+impact()}} to a specific city -\/ O(n) 
+\begin{DoxyParams}{Parameters}
+{\em city\+\_\+code} & of the city to analyse \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pipes, which ruptured, would make it impossible to deliver the desired amount of water to the city\+\_\+code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a3f26c4936d496040c0f9eccb17ccf2b2}\label{classNetwork_a3f26c4936d496040c0f9eccb17ccf2b2}} 
+\index{Network@{Network}!getGraph@{getGraph}}
+\index{getGraph@{getGraph}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getGraph()}{getGraph()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classGraph}{Graph}}$<$std\+::string$>$\& Network\+::get\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter for the network\textquotesingle{}s graph -\/ 0(1) 
+
+\begin{DoxyReturn}{Returns}
+Returns the network\textquotesingle{}s graph 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a274008685160cc64dfcadd8a557e134e}\label{classNetwork_a274008685160cc64dfcadd8a557e134e}} 
+\index{Network@{Network}!getReservoirs@{getReservoirs}}
+\index{getReservoirs@{getReservoirs}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getReservoirs()}{getReservoirs()}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}}$>$\& Network\+::get\+Reservoirs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for the network\textquotesingle{}s reservoir map. -\/ 0(1) \begin{DoxyReturn}{Returns}
+Returns the network\textquotesingle{}s reservoir map. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a050cdad9c95c7239114534e0293de9a5}\label{classNetwork_a050cdad9c95c7239114534e0293de9a5}} 
+\index{Network@{Network}!getStations@{getStations}}
+\index{getStations@{getStations}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{getStations()}{getStations()}}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classStation}{Station}}$>$\& Network\+::get\+Stations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for the network\textquotesingle{}s stations map. -\/ 0(1) \begin{DoxyReturn}{Returns}
+Returns the network\textquotesingle{}s stations map. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a5776994d03350d0f422fc07cb8627e96}\label{classNetwork_a5776994d03350d0f422fc07cb8627e96}} 
+\index{Network@{Network}!globalEdmondsKarp@{globalEdmondsKarp}}
+\index{globalEdmondsKarp@{globalEdmondsKarp}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{globalEdmondsKarp()}{globalEdmondsKarp()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::pair$<$std\+::string,double$>$ $>$ Network\+::global\+Edmonds\+Karp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g }\end{DoxyParamCaption})}
+
+Performs an Edmonds-\/\+Karp algorithm to determine the maximum amount of water that can reach each city writes the output to a file -\/ O(V $\ast$ E²) 
+\begin{DoxyParams}{Parameters}
+{\em g} & the provided graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of pairs (city code, value) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classNetwork_a00afa6a87f29349681d1f561a27fe60b}\label{classNetwork_a00afa6a87f29349681d1f561a27fe60b}} 
+\index{Network@{Network}!parseCities@{parseCities}}
+\index{parseCities@{parseCities}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{parseCities()}{parseCities()}}
+{\footnotesize\ttfamily void Network\+::parse\+Cities (\begin{DoxyParamCaption}\item[{std\+::string}]{path }\end{DoxyParamCaption})}
+
+
+
+Function to parse the cities file -\/ 0(n $\ast$ V) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & that points to the cities file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a02f811485ce73e04a542b2083485326b}\label{classNetwork_a02f811485ce73e04a542b2083485326b}} 
+\index{Network@{Network}!parsePipes@{parsePipes}}
+\index{parsePipes@{parsePipes}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{parsePipes()}{parsePipes()}}
+{\footnotesize\ttfamily void Network\+::parse\+Pipes (\begin{DoxyParamCaption}\item[{std\+::string}]{path }\end{DoxyParamCaption})}
+
+Function to parse the pipes file -\/ O(n $\ast$ V) 
+\begin{DoxyParams}{Parameters}
+{\em path} & that points to the pipes file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a8b3dc507cfaa35e304b2c09ab9f23ed0}\label{classNetwork_a8b3dc507cfaa35e304b2c09ab9f23ed0}} 
+\index{Network@{Network}!parseReservoirs@{parseReservoirs}}
+\index{parseReservoirs@{parseReservoirs}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{parseReservoirs()}{parseReservoirs()}}
+{\footnotesize\ttfamily void Network\+::parse\+Reservoirs (\begin{DoxyParamCaption}\item[{std\+::string}]{path }\end{DoxyParamCaption})}
+
+Function to parse the reservoirs file -\/ O(n $\ast$ V) 
+\begin{DoxyParams}{Parameters}
+{\em path} & that points to the reservoirs file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_ac3d1ee5113b21e830f25c4806af689ca}\label{classNetwork_ac3d1ee5113b21e830f25c4806af689ca}} 
+\index{Network@{Network}!parseStations@{parseStations}}
+\index{parseStations@{parseStations}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{parseStations()}{parseStations()}}
+{\footnotesize\ttfamily void Network\+::parse\+Stations (\begin{DoxyParamCaption}\item[{std\+::string}]{path }\end{DoxyParamCaption})}
+
+Function to parse the stations file -\/ O(n $\ast$ V) 
+\begin{DoxyParams}{Parameters}
+{\em path} & that points to the stations file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a8cfdfcbf26a3bd5dff6b79071c1bfdaa}\label{classNetwork_a8cfdfcbf26a3bd5dff6b79071c1bfdaa}} 
+\index{Network@{Network}!pipe\_out\_impact@{pipe\_out\_impact}}
+\index{pipe\_out\_impact@{pipe\_out\_impact}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{pipe\_out\_impact()}{pipe\_out\_impact()}}
+{\footnotesize\ttfamily void Network\+::pipe\+\_\+out\+\_\+impact (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g }\end{DoxyParamCaption})}
+
+Function to calculate impact that each pipe has on each city. This function is called only once, since for each iteration (for each pipe in the graph), the cities affected by the said pipe are stored in a map, making it unnecessary to iterate through all edges for each and every city. -\/ O( (V $\ast$ E²) $\ast$ E) 
+\begin{DoxyParams}{Parameters}
+{\em g} & the network\textquotesingle{}s graph \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a9e69235b21e3be16bbce8ecfb8fb1132}\label{classNetwork_a9e69235b21e3be16bbce8ecfb8fb1132}} 
+\index{Network@{Network}!testAndVisit@{testAndVisit}}
+\index{testAndVisit@{testAndVisit}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{testAndVisit()}{testAndVisit()}}
+{\footnotesize\ttfamily void Network\+::test\+And\+Visit (\begin{DoxyParamCaption}\item[{std\+::queue$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$ $>$ \&}]{q,  }\item[{\mbox{\hyperlink{classEdge}{Edge}}$<$ std\+::string $>$ $\ast$}]{e,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$}]{w,  }\item[{double}]{residual }\end{DoxyParamCaption})}
+
+This function is used within the BFS algorithm to test whether a vertex w is not visited and if there is residual capacity available in an edge e. If both conditions are met, it marks the vertex w as visited, sets the path through which it was reached, and enqueues it for further exploration. -\/ 0(1)
+
+
+\begin{DoxyParams}{Parameters}
+{\em q} & queue of vertices \\
+\hline
+{\em e} & edge to test \\
+\hline
+{\em w} & vertex to visit \\
+\hline
+{\em residual} & value used for the conditions \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classNetwork_a47cd43123ebd2d338757a2e07ef53d6b}\label{classNetwork_a47cd43123ebd2d338757a2e07ef53d6b}} 
+\index{Network@{Network}!vertex\_out@{vertex\_out}}
+\index{vertex\_out@{vertex\_out}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{vertex\_out()}{vertex\_out()}}
+{\footnotesize\ttfamily std\+::list$<$std\+::tuple$<$std\+::string,double,int$>$ $>$ Network\+::vertex\+\_\+out (\begin{DoxyParamCaption}\item[{std\+::string}]{res\+\_\+code,  }\item[{std\+::list$<$ std\+::pair$<$ std\+::string, double $>$$>$}]{lista,  }\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g }\end{DoxyParamCaption})}
+
+This function takes a vertex received by input out of the graph and compares the water all the cities receive, prior and after the said removal -\/ O(V $\ast$ E²) 
+\begin{DoxyParams}{Parameters}
+{\em res\+\_\+code} & code of the vertex to remove \\
+\hline
+{\em lista} & list of pairs (city code, value) of the original water received \\
+\hline
+{\em g} & the network\textquotesingle{}s graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of tuples(\+City, Water\+Received, Met\+Demand) 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classNetwork_a55ba7f8c6dcbf062a392308b83f9dac7}\label{classNetwork_a55ba7f8c6dcbf062a392308b83f9dac7}} 
+\index{Network@{Network}!cities@{cities}}
+\index{cities@{cities}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{cities}{cities}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classCity}{City}}$>$ Network\+::cities\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNetwork_ad796d462eb8a7b207fc8c685b151c1ca}\label{classNetwork_ad796d462eb8a7b207fc8c685b151c1ca}} 
+\index{Network@{Network}!cities\_impacted\_by\_pipes@{cities\_impacted\_by\_pipes}}
+\index{cities\_impacted\_by\_pipes@{cities\_impacted\_by\_pipes}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{cities\_impacted\_by\_pipes}{cities\_impacted\_by\_pipes}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string,std\+::list$<$std\+::tuple$<$std\+::pair$<$std\+::string,std\+::string$>$,double,int$>$ $>$ $>$ Network\+::cities\+\_\+impacted\+\_\+by\+\_\+pipes\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNetwork_a7955b59932e0ced9e066139e683aa2dc}\label{classNetwork_a7955b59932e0ced9e066139e683aa2dc}} 
+\index{Network@{Network}!graph@{graph}}
+\index{graph@{graph}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{graph}{graph}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGraph}{Graph}}$<$std\+::string$>$ Network\+::graph\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNetwork_a1bab94efdf6fdd9513bc3defd5f27b0b}\label{classNetwork_a1bab94efdf6fdd9513bc3defd5f27b0b}} 
+\index{Network@{Network}!reservoirs@{reservoirs}}
+\index{reservoirs@{reservoirs}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{reservoirs}{reservoirs}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}}$>$ Network\+::reservoirs\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNetwork_a90bf77e9926221563068f35a6512e692}\label{classNetwork_a90bf77e9926221563068f35a6512e692}} 
+\index{Network@{Network}!stations@{stations}}
+\index{stations@{stations}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{stations}{stations}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classStation}{Station}}$>$ Network\+::stations\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classNetwork_a340f6916c5840e853e3228a999fa480e}\label{classNetwork_a340f6916c5840e853e3228a999fa480e}} 
+\index{Network@{Network}!vertices@{vertices}}
+\index{vertices@{vertices}!Network@{Network}}
+\doxysubsubsection{\texorpdfstring{vertices}{vertices}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string,\mbox{\hyperlink{classVertex}{Vertex}}$<$std\+::string$>$$\ast$$>$ Network\+::vertices\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{Network_8h}{Network.\+h}}\end{DoxyCompactItemize}

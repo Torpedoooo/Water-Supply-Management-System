@@ -1,0 +1,6 @@
+# ninja log v5
+38	1734	7333539909019067	CMakeFiles/GraphProject.dir/src/utils.cpp.obj	19e21ccb5baccd36
+31	2057	7333544851109168	CMakeFiles/GraphProject.dir/src/main.cpp.obj	653734db7da02cc
+6	3097	7333549848832474	CMakeFiles/GraphProject.dir/src/Network.cpp.obj	eafd46588bd11c2e
+35	2079	7333542728282538	CMakeFiles/GraphProject.dir/src/Menu.cpp.obj	2679a43eb3ac0b88
+3097	4076	7333549858583413	GraphProject.exe	21f6c0e83e30f4dc

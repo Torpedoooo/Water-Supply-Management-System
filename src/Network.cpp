@@ -317,7 +317,7 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::s
 //0: Reservoir / 1: Station / 2:City
 
 
-void Network::cityEdmondsKarp(std::string CityCode) {
+std::pair<std::string,double> Network::cityEdmondsKarp(std::string CityCode) {
     Graph<std::string> g = this->graph;
     Vertex<std::string>* target_city = vertices[CityCode];
     g.addVertex("SS");
@@ -349,14 +349,14 @@ void Network::cityEdmondsKarp(std::string CityCode) {
         double f = findMinResidualAlongPath(s, t);
         augmentFlowAlongPath(s, t, f);
     }
-
+    std::pair<std::string,double> par;
     for(Edge<std::string> *e : t->getIncoming()) {
-        std::cout<< cities[e->getOrig()->getInfo()].getCity()<<
-                 " - " <<cities[e->getOrig()->getInfo()].getCode()<<
-                 " - "<< e->getFlow()<<"\n";
+
+        par =  make_pair(e->getOrig()->getInfo(),e->getFlow());
     }
     g.removeVertex("SS");
     g.removeVertex("ST");
+    return par;
 }
 
 
@@ -467,53 +467,6 @@ std::list<std::string> Network::findNonCriticalPumpingStations(){
     return non_critical_stations;
 }
 
-/*std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::string source_info,std::string target_info, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
-    auto source = graph.findVertex(source_info);
-    auto target = graph.findVertex(target_info);
-    std::map<Edge<std::string>*, double> original_weights;
-    std::map<Edge<std::string>*, double> original_flows;
-
-    for (auto edge : source->getAdj()) {
-        if(edge->getDest()==target) {
-            original_weights[edge] = edge->getWeight();
-            original_flows[edge] = edge->getFlow();
-            edge->setWeight(0);
-            edge->setFlow(0);
-        }
-    }
-
-
-    auto new_list = calculate_water_needs(g);
-    std::list<std::tuple<std::string,double,int>> return_list;
-    for (auto pair : new_list){
-        auto it = std::find_if(lista.begin(), lista.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
-        if(it != lista.end()){
-            if (it->second>=0 && pair.second<0){
-                return_list.emplace_back(pair.first,pair.second-it->second,1); // 1 If met demand and now doesnt
-            }
-            else if (it->second>=0 && pair.second>=0){
-                return_list.emplace_back(pair.first,pair.second-it->second,2); // 2 If met demand and still does
-            }
-            else if (it->second<0 && pair.second<0){
-                return_list.emplace_back(pair.first,pair.second-it->second,3); // 3 If not met demand and still doesnt
-            }
-            else if (it->second<0 && pair.second>=0){
-                return_list.emplace_back(pair.first,pair.second-it->second,4); // 4 If not met demand and now does
-            }
-        }
-    }
-    for (auto edge : source->getAdj()) {
-        if(edge->getDest()==target) {
-            edge->setWeight(original_weights[edge]);
-            edge->setFlow(original_flows[edge]);
-        }
-    }
-
-
-    return return_list;
-}*/
-
-
 void Network::pipe_out_impact(Graph<std::string> g){
     auto initial_needs = calculate_water_needs(g);
 
@@ -558,12 +511,29 @@ void Network::pipe_out_impact(Graph<std::string> g){
     }
 }
 
-std::list<std::pair<std::string,std::string>> Network::getCriticalPipesForCity(std::string city_code){
-    std::list<std::pair<std::string,std::string>> critical_pipes;
+std::list<std::tuple<std::string,std::string,double>> Network::getCriticalPipesForCity(std::string city_code){
+    std::list<std::tuple<std::string,std::string,double>> critical_pipes;
     for (auto pipe : cities_impacted_by_pipes[city_code]){
         if (std::get<2>(pipe) == 1){
-            critical_pipes.emplace_back(std::get<0>(pipe));
+            critical_pipes.emplace_back(std::get<0>(pipe).first,std::get<0>(pipe).second,std::get<1>(pipe));
         }
     }
     return critical_pipes;
+}
+
+const std::unordered_map<std::string, Reservoir> &Network::getReservoirs() const {
+    return reservoirs;
+}
+
+const std::unordered_map<std::string, City> &Network::getCities() const {
+    return cities;
+}
+
+const std::unordered_map<std::string, Station> &Network::getStations() const {
+    return stations;
+}
+
+const std::unordered_map<std::string, std::list<std::tuple<std::pair<std::string, std::string>, double, int>>> &
+Network::getCitiesImpactedByPipes() const {
+    return cities_impacted_by_pipes;
 }
