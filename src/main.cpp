@@ -23,11 +23,7 @@ int main() {
     for (auto &i : lista3) {
         std::cout << std::get<0>(i) << " " << std::get<1>(i) << " " << std::get<2>(i) << std::endl;
     }
-    std:: cout << "---------------------\n";
-    auto lista1 = network.pipe_out("R_9","PS_36",network.calculate_water_needs(network.getGraph()),network.getGraph());
-    for (auto tuplo : lista1){
-        std::cout<< std::get<0>(tuplo)<<' '<<std::get<1>(tuplo)<<' '<<std::get<2>(tuplo)<<'\n';
-    }
+
 
     std::cout << "---------------------\n";
     auto lista4 = network.globalEdmondsKarp(network.getGraph());
