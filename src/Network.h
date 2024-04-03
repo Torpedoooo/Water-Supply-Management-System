@@ -170,7 +170,7 @@ public:
      * @return the pipes, which ruptured, would make it impossible
      * to deliver the desired amount of water to the city_code
      */
-    std::list<std::tuple<std::string,std::string,double>> getCriticalPipesForCity(std::string city_code);
+    std::list<std::tuple<std::string,std::string,double,int>> getCriticalPipesForCity(std::string city_code);
     /**
      * Function to calculate impact that each pipe has on each city.
      * This function is called only once, since for each iteration (for each pipe in the graph),

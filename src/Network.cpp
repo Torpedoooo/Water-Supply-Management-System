@@ -502,11 +502,11 @@ void Network::pipe_out_impact(Graph<std::string> g){
                         else if (it->second>=0 && pair.second>=0){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,2));
                         }
-                        else if (it->second<0 && pair.second<0){
+                        else if (it->second<0 && pair.second<0 && pair.second<it->second){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,3));
 
                         }
-                        else if (it->second<0 && pair.second>=0){
+                        else if (it->second<0 && pair.second>=0 ){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,4));
                         }
                     }
@@ -519,11 +519,11 @@ void Network::pipe_out_impact(Graph<std::string> g){
     }
 }
 
-std::list<std::tuple<std::string,std::string,double>> Network::getCriticalPipesForCity(std::string city_code){
-    std::list<std::tuple<std::string,std::string,double>> critical_pipes;
+std::list<std::tuple<std::string,std::string,double,int>> Network::getCriticalPipesForCity(std::string city_code){
+    std::list<std::tuple<std::string,std::string,double,int>> critical_pipes;
     for (auto pipe : cities_impacted_by_pipes[city_code]){
-        if (std::get<2>(pipe) == 1){
-            critical_pipes.emplace_back(std::get<0>(pipe).first,std::get<0>(pipe).second,std::get<1>(pipe));
+        if (std::get<2>(pipe) == 1 || std::get<2>(pipe) == 3){
+            critical_pipes.emplace_back(std::get<0>(pipe).first,std::get<0>(pipe).second,std::get<1>(pipe),std::get<2>(pipe));
         }
     }
     return critical_pipes;
