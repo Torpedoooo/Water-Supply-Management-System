@@ -88,7 +88,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3f26c4936d496040c0f9eccb17ccf2b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a274008685160cc64dfcadd8a557e134e"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, <a class="el" href="classReservoir.html">Reservoir</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a274008685160cc64dfcadd8a557e134e">getReservoirs</a> () const</td></tr>
 <tr class="separator:a274008685160cc64dfcadd8a557e134e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa4973a4c44c2c4567682685a88ea62"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, <a class="el" href="classCity.html">City</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aafa4973a4c44c2c4567682685a88ea62">getCities</a> () const</td></tr>
+<tr class="memitem:aafa4973a4c44c2c4567682685a88ea62"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, City &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#aafa4973a4c44c2c4567682685a88ea62">getCities</a> () const</td></tr>
 <tr class="separator:aafa4973a4c44c2c4567682685a88ea62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a050cdad9c95c7239114534e0293de9a5"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, <a class="el" href="classStation.html">Station</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a050cdad9c95c7239114534e0293de9a5">getStations</a> () const</td></tr>
 <tr class="separator:a050cdad9c95c7239114534e0293de9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,8 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a799af91fa17bab345d4eb2f5f55cad15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d628791829e51b25c459ecddde891db"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a1d628791829e51b25c459ecddde891db">findMinResidualAlongPath</a> (<a class="el" href="classVertex.html">Vertex</a>&lt; std::string &gt; *s, <a class="el" href="classVertex.html">Vertex</a>&lt; std::string &gt; *t)</td></tr>
 <tr class="separator:a1d628791829e51b25c459ecddde891db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5776994d03350d0f422fc07cb8627e96"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::pair&lt; std::string, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a5776994d03350d0f422fc07cb8627e96">globalEdmondsKarp</a> (<a class="el" href="classGraph.html">Graph</a>&lt; std::string &gt;g)</td></tr>
-<tr class="separator:a5776994d03350d0f422fc07cb8627e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fb8f90bd8940b8eb78c95736703666b"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::pair&lt; std::string, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a5fb8f90bd8940b8eb78c95736703666b">globalEdmondsKarp</a> (<a class="el" href="classGraph.html">Graph</a>&lt; std::string &gt;g, bool output)</td></tr>
+<tr class="separator:a5fb8f90bd8940b8eb78c95736703666b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f219b9ec2aac45acd4a443e17427a59"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a5f219b9ec2aac45acd4a443e17427a59">cityEdmondsKarp</a> (std::string CityCode)</td></tr>
 <tr class="separator:a5f219b9ec2aac45acd4a443e17427a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dc8b105771d9804ddfc50c49ca203ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a2dc8b105771d9804ddfc50c49ca203ed">augmentFlowAlongPath</a> (<a class="el" href="classVertex.html">Vertex</a>&lt; std::string &gt; *s, <a class="el" href="classVertex.html">Vertex</a>&lt; std::string &gt; *t, double f)</td></tr>
@@ -134,7 +134,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a340f6916c5840e853e3228a999fa480e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bab94efdf6fdd9513bc3defd5f27b0b"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="classReservoir.html">Reservoir</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a1bab94efdf6fdd9513bc3defd5f27b0b">reservoirs</a></td></tr>
 <tr class="separator:a1bab94efdf6fdd9513bc3defd5f27b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55ba7f8c6dcbf062a392308b83f9dac7"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="classCity.html">City</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a55ba7f8c6dcbf062a392308b83f9dac7">cities</a></td></tr>
+<tr class="memitem:a55ba7f8c6dcbf062a392308b83f9dac7"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, City &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a55ba7f8c6dcbf062a392308b83f9dac7">cities</a></td></tr>
 <tr class="separator:a55ba7f8c6dcbf062a392308b83f9dac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90bf77e9926221563068f35a6512e692"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="classStation.html">Station</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNetwork.html#a90bf77e9926221563068f35a6512e692">stations</a></td></tr>
 <tr class="separator:a90bf77e9926221563068f35a6512e692"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -339,7 +339,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unordered_map&lt;std::string, <a class="el" href="classCity.html">City</a>&gt;&amp; Network::getCities </td>
+          <td class="memname">const std::unordered_map&lt;std::string, City&gt;&amp; Network::getCities </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -448,8 +448,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5776994d03350d0f422fc07cb8627e96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5776994d03350d0f422fc07cb8627e96">&#9670;&nbsp;</a></span>globalEdmondsKarp()</h2>
+<a id="a5fb8f90bd8940b8eb78c95736703666b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fb8f90bd8940b8eb78c95736703666b">&#9670;&nbsp;</a></span>globalEdmondsKarp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -458,14 +458,25 @@ Private Attributes</h2></td></tr>
           <td class="memname">std::list&lt;std::pair&lt;std::string,double&gt; &gt; Network::globalEdmondsKarp </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classGraph.html">Graph</a>&lt; std::string &gt;&#160;</td>
-          <td class="paramname"><em>g</em></td><td>)</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach each city writes the output to a file - O(V * E²) </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">g</td><td>the provided graph </td></tr>
+    <tr><td class="paramname">output</td><td>boolean to determine if the output should be written to a file </td></tr>
   </table>
   </dd>
 </dl>
@@ -699,7 +710,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;std::string, <a class="el" href="classCity.html">City</a>&gt; Network::cities</td>
+          <td class="memname">std::unordered_map&lt;std::string, City&gt; Network::cities</td>
         </tr>
       </table>
   </td>
@@ -822,7 +833,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/<a class="el" href="Network_8h_source.html">Network.h</a></li>
+<li>/home/ruiborges/FEUP/2ºAno/2ºSemestre/da/project_DA/src/<a class="el" href="Network_8h_source.html">Network.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
