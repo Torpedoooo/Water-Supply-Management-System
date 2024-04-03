@@ -28,3 +28,12 @@ bool station_exists(Network &network, std::string station_code){
     }
     return false;
 }
+
+bool pipe_exists( Network &network,  std::pair<std::string, std::string> pipe){
+    for (const auto &p : network.getPipes()){
+        if (p.first == pipe.first && p.second == pipe.second){
+            return true;
+        }
+    }
+    return false;
+}

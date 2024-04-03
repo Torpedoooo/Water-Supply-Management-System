@@ -10,5 +10,6 @@
 bool reservoir_exists(Network &network, std::string reservoir_code);
 bool city_exists(Network &network, std::string city_code);
 bool station_exists(Network &network, std::string station_code);
+bool pipe_exists(Network &network,  std::pair<std::string, std::string> pipe);
 
 #endif //GRAPHPROJECT_UTILS_H

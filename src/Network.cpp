@@ -180,9 +180,12 @@ void Network::parsePipes(std::string path) {
 
         if (direction == 1) {
             graph.addEdge(source, dest, capacity);
+            pipes.insert(std::make_pair(source, dest));
         } else {
             graph.addEdge(source,dest, capacity);
             graph.addEdge(dest,source, capacity);
+            pipes.insert(std::make_pair(source, dest));
+            pipes.insert(std::make_pair(dest, source));
         }
     }
 
@@ -432,6 +435,80 @@ std::list<std::tuple<std::string,double,int>> Network::vertex_out(std::string re
     return return_list;
 }
 
+std::list<std::tuple<std::string,double,int>> Network::pipe_out(std::list<std::pair<std::string,std::string>> pipes, std::list<std::pair<std::string,double>> lista, Graph<std::string> g){
+    std::list<std::tuple<std::string,double,int>> return_list;
+    std::map<Edge<std::string>*, double> original_weights;
+    std::map<Edge<std::string>*, double> original_flows;
+
+    // Set all selected pipes to zero
+    for (auto pipe : pipes) {
+        auto source = graph.findVertex(pipe.first);
+        auto target = graph.findVertex(pipe.second);
+
+        for (auto edge : source->getAdj()) {
+            if(edge->getDest()==target) {
+                original_weights[edge] = edge->getWeight();
+                original_flows[edge] = edge->getFlow();
+                edge->setWeight(0);
+                edge->setFlow(0);
+            }
+        }
+        // Check if the reverse pipe exists
+            for (auto edge : target->getAdj()) {
+                if(edge->getDest()==source) {
+                    original_weights[edge] = edge->getWeight();
+                    original_flows[edge] = edge->getFlow();
+                    edge->setWeight(0);
+                    edge->setFlow(0);
+                }
+            }
+
+    }
+
+    // Calculate new water needs after all pipes have been set to zero
+    auto new_list = calculate_water_needs(g);
+
+    // Compare the new list with the initial list
+    for (auto pair : new_list){
+        auto it = std::find_if(lista.begin(), lista.end(), [&pair](const std::pair<std::string,double>& element){ return element.first == pair.first; });
+        if(it != lista.end()){
+            if (it->second>=0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,1); // 1 If met demand and now doesnt
+            }
+            else if (it->second>=0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,2); // 2 If met demand and still does
+            }
+            else if (it->second<0 && pair.second<0){
+                return_list.emplace_back(pair.first,pair.second-it->second,3); // 3 If not met demand and still doesnt
+            }
+            else if (it->second<0 && pair.second>=0){
+                return_list.emplace_back(pair.first,pair.second-it->second,4); // 4 If not met demand and now does
+            }
+        }
+    }
+
+    // Restore the original weights and flows of the edges
+    for (auto pipe : pipes) {
+        auto source = graph.findVertex(pipe.first);
+        auto target = graph.findVertex(pipe.second);
+
+        for (auto edge : source->getAdj()) {
+            if(edge->getDest()==target) {
+                edge->setWeight(original_weights[edge]);
+                edge->setFlow(original_flows[edge]);
+            }
+        }
+        for (auto edge : target->getAdj()) {
+            if(edge->getDest()==source) {
+                edge->setWeight(original_weights[edge]);
+                edge->setFlow(original_flows[edge]);
+            }
+        }
+    }
+
+    return return_list;
+}
+
 std::list<std::string> Network::findNonCriticalPumpingStations(){
     std::list<std::string> non_critical_stations;
     auto current_edmonds_list = calculate_water_needs(graph);
@@ -541,6 +618,9 @@ const std::unordered_map<std::string, Station> &Network::getStations() const {
     return stations;
 }
 
+const std::set<std::pair<std::string, std::string>> &Network::getPipes() const {
+    return pipes;
+}
 const std::unordered_map<std::string, std::list<std::tuple<std::pair<std::string, std::string>, double, int>>> &
 Network::getCitiesImpactedByPipes() const {
     return cities_impacted_by_pipes;

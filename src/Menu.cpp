@@ -239,7 +239,33 @@ void showCriticalPipesForCity(Network network, std::string city) {
     showReliability(network);
 }
 
+void showPipesOut(Network network, std::list<std::pair<std::string, std::string>> pipes) {
+    auto lista = network.calculate_water_needs(network.getGraph());
+    auto result = network.pipe_out(pipes, lista, network.getGraph());
+    for (auto &i : result) {
+        if (std::get<2>(i) == 1){
+            std::cout << std::get<0>(i) << " met demand and now doesn't. It lost " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
+        } else if (std::get<2>(i) == 2){
+            if (std::get<1>(i)==0){
+                std::cout << std::get<0>(i) << " wasn't impacted by the removal." << "\n";
+            } else if (std::get<1>(i) < 0){
+                std::cout << std::get<0>(i) << " met demands and still meets, but lost:  " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
+            }
+        } else if (std::get<2>(i) == 3){
+            if (std::get<1>(i)==0){
+                std::cout << std::get<0>(i) << " wasn't impacted by the removal." << "\n";
+            }else if (std::get<1>(i) < 0){
+                std::cout << std::get<0>(i) << " didn't meet demands and still doesnt and lost: " << std::abs(std::get<1>(i)) << " m^3 of water." << "\n";
+            }
+        }
+    }
 
+    std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
+    std::cout << "Press any key to go back to the menu." << "\n";
+    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
+    showReliability(network);
+}
 
 void showReliability(Network network) {
     system("clear");
@@ -250,7 +276,8 @@ void showReliability(Network network) {
     std::cout << "1. Reservoir/Pumping Station out" << "\n";
     std::cout << "2. Pumping Station Maintenance" << "\n";
     std::cout << "3. Critical Pipes for City" << "\n";
-    std::cout << "4. Go back" << "\n";
+    std::cout << "4. Pipes out" << "\n";
+    std::cout << "5. Go back" << "\n";
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << "Enter your choice: ";
     int choice;
@@ -258,7 +285,7 @@ void showReliability(Network network) {
     std::cin.ignore(256, '\n');
     std::cin >> choice;
 
-    while (std::cin.fail() || choice > 4 || choice < 1) {
+    while (std::cin.fail() || choice > 5 || choice < 1) {
         std::cout << "Invalid choice. Please try again." << "\n";
         std::cin.clear();
         std::cin.ignore(256, '\n');
@@ -298,7 +325,34 @@ void showReliability(Network network) {
             }
             showCriticalPipesForCity(network,city);
             break;
-        case 4:
+        case 4: {
+            std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
+            std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
+            std::cout << "            Pipes Out Impact" << "\n";
+            std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
+            std::cout << "Enter the pipes source-target separated by commas: ";
+            std::string input;
+            std::cin.ignore();
+            std::getline(std::cin, input);
+            std::stringstream ss(input);
+            std::string pipe;
+            std::list<std::pair<std::string, std::string>> pipes;
+            while (std::getline(ss, pipe, ',')) {
+                std::stringstream pipe_ss(pipe);
+                std::string source, target;
+                std::getline(pipe_ss, source, '-');
+                std::getline(pipe_ss, target, '-');
+                std::pair<std::string, std::string> pipe_pair = std::make_pair(source, target);
+                if (pipe_exists(network, pipe_pair)) {
+                    pipes.push_back(pipe_pair);
+                } else {
+                    std::cout << "Pipe from " << source << " to " << target << " does not exist." << std::endl;
+                }
+            }
+            showPipesOut(network, pipes);
+            break;
+        }
+        case 5:
             showMenu(network);
             break;
         default:

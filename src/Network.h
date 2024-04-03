@@ -16,6 +16,8 @@
 #include <sstream>
 #include <list>
 #include <ctime>
+#include <set>
+
 
 class Network {
     private:
@@ -24,6 +26,7 @@ class Network {
         std::unordered_map<std::string, Reservoir> reservoirs;
     std::unordered_map<std::string, City> cities;
         std::unordered_map<std::string, Station> stations;
+    std::set<std::pair<std::string, std::string>> pipes;
         std::unordered_map<std::string,std::list<std::tuple<std::pair<std::string,std::string>,double,int>>> cities_impacted_by_pipes;
 
 public:
@@ -51,6 +54,8 @@ public:
      * @return Returns the network's stations map.
      */
     const std::unordered_map<std::string, Station> &getStations() const;
+
+    const std::set<std::pair<std::string, std::string>> &getPipes() const;
 
     const std::unordered_map<std::string, std::list<std::tuple<std::pair<std::string, std::string>, double, int>>> &
     getCitiesImpactedByPipes() const;
@@ -179,6 +184,8 @@ public:
      * @param g the network's graph
      */
     void pipe_out_impact(Graph<std::string> g);
+
+    std::list<std::tuple<std::string,double,int>> pipe_out(std::list<std::pair<std::string,std::string>> pipes, std::list<std::pair<std::string,double>> lista, Graph<std::string> g);
     };
 
 

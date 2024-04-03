@@ -1,4 +1,0 @@
-C:/Users/tomas/proj1_DA/project_DA/cmake-build-debug/CMakeFiles/GraphProject.dir
-C:/Users/tomas/proj1_DA/project_DA/cmake-build-debug/CMakeFiles/Doxygen.dir
-C:/Users/tomas/proj1_DA/project_DA/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/tomas/proj1_DA/project_DA/cmake-build-debug/CMakeFiles/rebuild_cache.dir
