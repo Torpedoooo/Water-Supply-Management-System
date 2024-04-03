@@ -118,9 +118,10 @@ public:
      * Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach each city
      * writes the output to a file - O(V * E²)
      * @param g the provided graph
+     * @param output boolean to determine if the output should be written to a file
      * @return a list of pairs (city code, value)
      */
-    std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g);
+    std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g, bool output);
 
     /**
      * Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach a specific city - O(V * E²)
@@ -169,7 +170,7 @@ public:
      * @return the pipes, which ruptured, would make it impossible
      * to deliver the desired amount of water to the city_code
      */
-    std::list<std::tuple<std::string,std::string,double>> getCriticalPipesForCity(std::string city_code);
+    std::list<std::tuple<std::string,std::string,double,int>> getCriticalPipesForCity(std::string city_code);
     /**
      * Function to calculate impact that each pipe has on each city.
      * This function is called only once, since for each iteration (for each pipe in the graph),

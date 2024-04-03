@@ -6,8 +6,7 @@
 
 
 
-Collaboration diagram for Network\+:
-\nopagebreak
+Collaboration diagram for Network\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,7 +20,7 @@ const \mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$ \& \mbox{\hyperl
 \begin{DoxyCompactList}\small\item\em Getter for the network\textquotesingle{}s graph -\/ 0(1) \end{DoxyCompactList}\item 
 const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}} $>$ \& \mbox{\hyperlink{classNetwork_a274008685160cc64dfcadd8a557e134e}{get\+Reservoirs}} () const
 \item 
-const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classCity}{City}} $>$ \& \mbox{\hyperlink{classNetwork_aafa4973a4c44c2c4567682685a88ea62}{get\+Cities}} () const
+const std\+::unordered\+\_\+map$<$ std\+::string, City $>$ \& \mbox{\hyperlink{classNetwork_aafa4973a4c44c2c4567682685a88ea62}{get\+Cities}} () const
 \item 
 const std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classStation}{Station}} $>$ \& \mbox{\hyperlink{classNetwork_a050cdad9c95c7239114534e0293de9a5}{get\+Stations}} () const
 \item 
@@ -41,7 +40,7 @@ bool \mbox{\hyperlink{classNetwork_a799af91fa17bab345d4eb2f5f55cad15}{find\+Augm
 \item 
 double \mbox{\hyperlink{classNetwork_a1d628791829e51b25c459ecddde891db}{find\+Min\+Residual\+Along\+Path}} (\mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$s, \mbox{\hyperlink{classVertex}{Vertex}}$<$ std\+::string $>$ $\ast$t)
 \item 
-std\+::list$<$ std\+::pair$<$ std\+::string, double $>$ $>$ \mbox{\hyperlink{classNetwork_a5776994d03350d0f422fc07cb8627e96}{global\+Edmonds\+Karp}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$g)
+std\+::list$<$ std\+::pair$<$ std\+::string, double $>$ $>$ \mbox{\hyperlink{classNetwork_a5fb8f90bd8940b8eb78c95736703666b}{global\+Edmonds\+Karp}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$g, bool output)
 \item 
 std\+::pair$<$ std\+::string, double $>$ \mbox{\hyperlink{classNetwork_a5f219b9ec2aac45acd4a443e17427a59}{city\+Edmonds\+Karp}} (std\+::string City\+Code)
 \item 
@@ -66,7 +65,7 @@ std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classVertex}{Vertex
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classReservoir}{Reservoir}} $>$ \mbox{\hyperlink{classNetwork_a1bab94efdf6fdd9513bc3defd5f27b0b}{reservoirs}}
 \item 
-std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classCity}{City}} $>$ \mbox{\hyperlink{classNetwork_a55ba7f8c6dcbf062a392308b83f9dac7}{cities}}
+std\+::unordered\+\_\+map$<$ std\+::string, City $>$ \mbox{\hyperlink{classNetwork_a55ba7f8c6dcbf062a392308b83f9dac7}{cities}}
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classStation}{Station}} $>$ \mbox{\hyperlink{classNetwork_a90bf77e9926221563068f35a6512e692}{stations}}
 \item 
@@ -167,7 +166,7 @@ a list with the codes of the non critical pumping stations
 \index{Network@{Network}!getCities@{getCities}}
 \index{getCities@{getCities}!Network@{Network}}
 \doxysubsubsection{\texorpdfstring{getCities()}{getCities()}}
-{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classCity}{City}}$>$\& Network\+::get\+Cities (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const std\+::unordered\+\_\+map$<$std\+::string, City$>$\& Network\+::get\+Cities (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 Getter for the network\textquotesingle{}s cities map. -\/ 0(1) \begin{DoxyReturn}{Returns}
 Returns the network\textquotesingle{}s cities map. 
@@ -223,15 +222,17 @@ Returns the network\textquotesingle{}s reservoir map.
 Getter for the network\textquotesingle{}s stations map. -\/ 0(1) \begin{DoxyReturn}{Returns}
 Returns the network\textquotesingle{}s stations map. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classNetwork_a5776994d03350d0f422fc07cb8627e96}\label{classNetwork_a5776994d03350d0f422fc07cb8627e96}} 
+\mbox{\Hypertarget{classNetwork_a5fb8f90bd8940b8eb78c95736703666b}\label{classNetwork_a5fb8f90bd8940b8eb78c95736703666b}} 
 \index{Network@{Network}!globalEdmondsKarp@{globalEdmondsKarp}}
 \index{globalEdmondsKarp@{globalEdmondsKarp}!Network@{Network}}
 \doxysubsubsection{\texorpdfstring{globalEdmondsKarp()}{globalEdmondsKarp()}}
-{\footnotesize\ttfamily std\+::list$<$std\+::pair$<$std\+::string,double$>$ $>$ Network\+::global\+Edmonds\+Karp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily std\+::list$<$std\+::pair$<$std\+::string,double$>$ $>$ Network\+::global\+Edmonds\+Karp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ std\+::string $>$}]{g,  }\item[{bool}]{output }\end{DoxyParamCaption})}
 
 Performs an Edmonds-\/\+Karp algorithm to determine the maximum amount of water that can reach each city writes the output to a file -\/ O(V $\ast$ E²) 
 \begin{DoxyParams}{Parameters}
 {\em g} & the provided graph \\
+\hline
+{\em output} & boolean to determine if the output should be written to a file \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -340,7 +341,7 @@ a list of tuples(\+City, Water\+Received, Met\+Demand)
 \index{Network@{Network}!cities@{cities}}
 \index{cities@{cities}!Network@{Network}}
 \doxysubsubsection{\texorpdfstring{cities}{cities}}
-{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classCity}{City}}$>$ Network\+::cities\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, City$>$ Network\+::cities\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classNetwork_ad796d462eb8a7b207fc8c685b151c1ca}\label{classNetwork_ad796d462eb8a7b207fc8c685b151c1ca}} 
 \index{Network@{Network}!cities\_impacted\_by\_pipes@{cities\_impacted\_by\_pipes}}
@@ -376,4 +377,4 @@ a list of tuples(\+City, Water\+Received, Met\+Demand)
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/\mbox{\hyperlink{Network_8h}{Network.\+h}}\end{DoxyCompactItemize}
+/home/ruiborges/\+FEUP/2º\+Ano/2º\+Semestre/da/project\+\_\+\+DA/src/\mbox{\hyperlink{Network_8h}{Network.\+h}}\end{DoxyCompactItemize}

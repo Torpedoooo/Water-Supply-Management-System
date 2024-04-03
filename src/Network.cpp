@@ -259,7 +259,7 @@ void Network::augmentFlowAlongPath(Vertex<std::string> *s, Vertex<std::string> *
     }
 }
 //0: Reservoir / 1: Station / 2:City
-std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::string> g) {
+std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::string> g, bool output = false) {
     g.addVertex("SS");
     g.addVertex("ST");
 
@@ -291,23 +291,30 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::s
     }
     std::list<std::pair<std::string,double>> lista;
 
-    std::ostringstream path_out;
 
-    std::time_t tw = std::time(0);   // get time now
-    std::tm* now = std::localtime(&tw);
-    path_out << "../output/maxflow-" << now->tm_hour << ":" << now->tm_min << "-" << now->tm_mday << "-" << now->tm_mon+1 << "-" << now->tm_year+1900 << ".csv";
-    std::string out_path = path_out.str();
+    if (output) {
+        std::ostringstream path_out;
 
-    std::ofstream file(out_path.c_str(),std::ios::app);
+        std::time_t tw = std::time(0);   // get time now
+        std::tm *now = std::localtime(&tw);
+        path_out << "../output/maxflow-" << now->tm_hour << "-" << now->tm_min << "-" << now->tm_mday << "-"
+                 << now->tm_mon + 1 << "-" << now->tm_year + 1900 << ".csv";
+        std::string out_path = path_out.str();
 
-    file << "City,Code,WaterReceived\n";
-    for(Edge<std::string> *e : t->getIncoming()) {
-        lista.emplace_back(e->getOrig()->getInfo(),e->getFlow());
-        file << cities[e->getOrig()->getInfo()].getCity()<<
-             "," <<cities[e->getOrig()->getInfo()].getCode()<<
-             ","<< e->getFlow()<<"\n";
+        std::ofstream file(out_path.c_str());
+
+        file << "City,Code,WaterReceived\n";
+        for (Edge<std::string> *e: t->getIncoming()) {
+            file << cities[e->getOrig()->getInfo()].getCity() <<
+                 "," << cities[e->getOrig()->getInfo()].getCode() <<
+                 "," << e->getFlow() << "\n";
+        }
+        file.close();
     }
-    file.close();
+
+    for (Edge<std::string> *e: t->getIncoming()) {
+        lista.emplace_back(e->getOrig()->getInfo(), e->getFlow());
+    }
 
     g.removeVertex("SS");
     g.removeVertex("ST");
@@ -495,10 +502,11 @@ void Network::pipe_out_impact(Graph<std::string> g){
                         else if (it->second>=0 && pair.second>=0){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,2));
                         }
-                        else if (it->second<0 && pair.second<0){
+                        else if (it->second<0 && pair.second<0 && pair.second<it->second){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,3));
+
                         }
-                        else if (it->second<0 && pair.second>=0){
+                        else if (it->second<0 && pair.second>=0 ){
                             cities_impacted_by_pipes[pair.first].emplace_back(std::make_tuple(std::make_pair(v->getInfo(),e->getDest()->getInfo()),pair.second-it->second,4));
                         }
                     }
@@ -511,11 +519,11 @@ void Network::pipe_out_impact(Graph<std::string> g){
     }
 }
 
-std::list<std::tuple<std::string,std::string,double>> Network::getCriticalPipesForCity(std::string city_code){
-    std::list<std::tuple<std::string,std::string,double>> critical_pipes;
+std::list<std::tuple<std::string,std::string,double,int>> Network::getCriticalPipesForCity(std::string city_code){
+    std::list<std::tuple<std::string,std::string,double,int>> critical_pipes;
     for (auto pipe : cities_impacted_by_pipes[city_code]){
-        if (std::get<2>(pipe) == 1){
-            critical_pipes.emplace_back(std::get<0>(pipe).first,std::get<0>(pipe).second,std::get<1>(pipe));
+        if (std::get<2>(pipe) == 1 || std::get<2>(pipe) == 3){
+            critical_pipes.emplace_back(std::get<0>(pipe).first,std::get<0>(pipe).second,std::get<1>(pipe),std::get<2>(pipe));
         }
     }
     return critical_pipes;

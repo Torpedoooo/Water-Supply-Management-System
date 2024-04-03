@@ -53,7 +53,7 @@ void showGlobaledmondsKarp(Network network){
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
     std::cout << "                Flows" << "\n";
     std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
-    auto lista = network.globalEdmondsKarp(network.getGraph());
+    auto lista = network.globalEdmondsKarp(network.getGraph(),true);
     int total = 0;
     for (auto &i : lista) {
         std::cout << i.first << " " << i.second << std::endl;
@@ -216,12 +216,22 @@ void showPumpingStationMaintenance(Network network) {
 void showCriticalPipesForCity(Network network, std::string city) {
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
-    std::cout << "   Pipes than impact " << city << "\n";
+    std::cout << "   Pipes that impact " << city << "\n";
     std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
     auto lista = network.getCriticalPipesForCity(city);
     for (auto &i : lista) {
-        std::cout << "The failure of the pipe from " << std::get<0>(i) << " to " << std::get<1>(i) << " causes a loss of " << std::abs(std::get<2>(i)) << " m^3." << "\n";
+        if (std::get<3>(i) == 1) {
+            std::cout << "[CRITICAL PIPE] The failure of the pipe from " << std::get<0>(i) << " to " << std::get<1>(i)
+                      << " causes a loss of " << std::abs(std::get<2>(i))
+                      << " m^3 and makes it impossible to deliver the desired amount of water\n";
+        }
+        if (std::get<3>(i) == 3) {
+            std::cout << "The failure of the pipe from " << std::get<0>(i) << " to " << std::get<1>(i)
+                      << " causes a loss of " << std::abs(std::get<2>(i))
+                      << " m^3 even though it didn't already meet the city needs\n";
+        }
     }
+
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << "Press any key to go back to the menu." << "\n";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
