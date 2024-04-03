@@ -53,7 +53,7 @@ void showGlobaledmondsKarp(Network network){
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
     std::cout << "                Flows" << "\n";
     std::cout << " ┗ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺┛" << "\n";
-    auto lista = network.globalEdmondsKarp(network.getGraph());
+    auto lista = network.globalEdmondsKarp(network.getGraph(),true);
     int total = 0;
     for (auto &i : lista) {
         std::cout << i.first << " " << i.second << std::endl;

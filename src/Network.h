@@ -118,9 +118,10 @@ public:
      * Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach each city
      * writes the output to a file - O(V * E²)
      * @param g the provided graph
+     * @param output boolean to determine if the output should be written to a file
      * @return a list of pairs (city code, value)
      */
-    std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g);
+    std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g, bool output);
 
     /**
      * Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach a specific city - O(V * E²)
