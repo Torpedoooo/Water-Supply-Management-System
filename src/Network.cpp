@@ -326,7 +326,143 @@ std::list<std::pair<std::string,double>> Network::globalEdmondsKarp(Graph<std::s
 }
 //0: Reservoir / 1: Station / 2:City
 
+std::list<std::pair<std::string,double>> Network::balancedEdmondsKarp(Graph<std::string> g, bool output = false) {
+    g.addVertex("SS");
+    g.addVertex("ST");
 
+    for (Vertex<std::string> *v : g.getVertexSet()) {
+        if (v->getType() == 0) {
+            g.addEdge("SS", v->getInfo(), reservoirs[v->getInfo()].get_max_delivery());
+        }
+        else if (v->getType() == 2) {
+            g.addEdge(v->getInfo(), "ST", cities[v->getInfo()].getDemand());
+        }
+    }
+
+// Find source and target vertices in the graph
+    Vertex<std::string>* s = g.findVertex("SS");
+    Vertex<std::string>* t = g.findVertex("ST");
+// Validate source and target vertices
+    if (s == nullptr || t == nullptr || s == t)
+        throw std::logic_error("Invalid source and/or target vertex");
+// Initialize flow on all edges to 0
+    for (auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
+        }
+    }
+    double max_capacity = 0;
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+           if(e->getWeight()>max_capacity){
+               max_capacity = e->getWeight();
+           }
+        }
+    }
+    std::map<Edge<std::string>*, double> original_weights;
+
+    double delta = max_capacity;
+    while(delta>=1) {
+        for (auto vertex : g.getVertexSet()) {
+            for (auto edge : vertex->getAdj()) {
+                if (edge->getWeight() < delta) {
+                    original_weights[edge] = edge->getWeight();
+                    edge->setWeight(0);
+
+                }
+            }
+        }
+// While there is an augmenting path, augment the flow along the path
+        while (findAugmentingPath(&g, s, t)) {
+            double f = findMinResidualAlongPath(s, t);
+            augmentFlowAlongPath(s, t, f);
+        }
+        for (auto it : original_weights) {
+            it.first->setWeight(it.second);
+        }
+
+        delta = delta/2;
+    }
+    std::list<std::pair<std::string,double>> lista;
+
+
+    if (output) {
+        std::ostringstream path_out;
+
+        std::time_t tw = std::time(0);   // get time now
+        std::tm *now = std::localtime(&tw);
+        path_out << "../output/maxflow-" << now->tm_hour << "-" << now->tm_min << "-" << now->tm_mday << "-"
+                 << now->tm_mon + 1 << "-" << now->tm_year + 1900 << ".csv";
+        std::string out_path = path_out.str();
+
+        std::ofstream file(out_path.c_str());
+
+        file << "City,Code,WaterReceived\n";
+        for (Edge<std::string> *e: t->getIncoming()) {
+            file << cities[e->getOrig()->getInfo()].getCity() <<
+                 "," << cities[e->getOrig()->getInfo()].getCode() <<
+                 "," << e->getFlow() << "\n";
+        }
+        file.close();
+    }
+
+    for (Edge<std::string> *e: t->getIncoming()) {
+        lista.emplace_back(e->getOrig()->getInfo(), e->getFlow());
+    }
+
+    g.removeVertex("SS");
+    g.removeVertex("ST");
+
+    return lista;
+}
+std::tuple<double, double, double> Network::computeMetricsBalanced(Graph<std::string> g) {
+    balancedEdmondsKarp(g);
+    double sum = 0;
+    double sum_of_squares = 0;
+    double max_difference = 0;
+    int count = 0;
+
+
+    for (auto vertex : g.getVertexSet()) {
+        for (auto edge : vertex->getAdj()) {
+            double difference = abs(edge->getWeight() - edge->getFlow());
+            sum += difference;
+            sum_of_squares += difference * difference;
+            max_difference = std::max(max_difference, difference);
+            count++;
+        }
+    }
+
+    double average = sum / count;
+
+    double variance = (sum_of_squares / count) - (average * average);
+
+    return std::make_tuple(average, variance, max_difference);
+}
+std::tuple<double, double, double> Network::computeMetrics(Graph<std::string> g){
+
+    globalEdmondsKarp(g);
+
+    double sum = 0;
+    double sum_of_squares = 0;
+    double max_difference = 0;
+    int count = 0;
+
+
+    for (auto vertex : g.getVertexSet()) {
+        for (auto edge : vertex->getAdj()) {
+            double difference = std::abs(edge->getWeight() - edge->getFlow());
+            sum += difference;
+            sum_of_squares += difference * difference;
+            max_difference = std::max(max_difference, difference);
+            count++;
+        }
+    }
+
+    double average = sum / count;
+    double variance = (sum_of_squares / count) - (average * average);
+    return std::make_tuple(average, variance, max_difference);
+}
 std::pair<std::string,double> Network::cityEdmondsKarp(std::string CityCode) {
     Graph<std::string> g = this->graph;
     Vertex<std::string>* target_city = vertices[CityCode];

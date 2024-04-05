@@ -55,6 +55,10 @@ public:
      */
     const std::unordered_map<std::string, Station> &getStations() const;
 
+    /**
+     * Getter for the network's pipes set. - 0(1)
+     * @return Returns the network's pipes set.
+     */
     const std::set<std::pair<std::string, std::string>> &getPipes() const;
 
     const std::unordered_map<std::string, std::list<std::tuple<std::pair<std::string, std::string>, double, int>>> &
@@ -127,7 +131,28 @@ public:
      * @return a list of pairs (city code, value)
      */
     std::list<std::pair<std::string,double>> globalEdmondsKarp(Graph<std::string>g, bool output);
-
+    /**
+     * Performs a balanced Edmonds-Karp algorithm to determine the maximum amount of water that can reach each city
+     * - O(V * E²)
+     * @param g the provided graph
+     * @param output boolean to determine if the output should be written to a file
+     * @return a list of pairs (city code, value)
+     */
+    std::list<std::pair<std::string,double>> balancedEdmondsKarp(Graph<std::string> g, bool output);
+    /**
+     * This function calculates the metrics of the network, such as the total flow, the total flow that reaches the cities,
+     * and the total flow that reaches the reservoirs. - O(E)
+     * @param g the network's graph
+     * @return a tuple with the metrics
+     */
+    std::tuple<double, double, double> computeMetricsBalanced(Graph<std::string> g);
+     /**
+     * This function calculates the metrics of the network, such as the total flow, the total flow that reaches the cities,
+     * and the total flow that reaches the reservoirs. - O(E)
+     * @param g the network's graph
+     * @return a tuple with the metrics
+     */
+    std::tuple<double, double, double> computeMetrics(Graph<std::string> g);
     /**
      * Performs an Edmonds-Karp algorithm to determine the maximum amount of water that can reach a specific city - O(V * E²)
      * @param CityCode the city to analyse
@@ -185,6 +210,13 @@ public:
      */
     void pipe_out_impact(Graph<std::string> g);
 
+    /**
+     * Function to calculate the impact of removing a pipe on the network - O(V * E³)
+     * @param pipes list of pairs (pipe code, pipe name) to remove
+     * @param lista list of pairs (city code, value) of the original water received
+     * @param g the network's graph
+     * @return a list of tuples(City, WaterReceived, MetDemand)
+     */
     std::list<std::tuple<std::string,double,int>> pipe_out(std::list<std::pair<std::string,std::string>> pipes, std::list<std::pair<std::string,double>> lista, Graph<std::string> g);
     };
 

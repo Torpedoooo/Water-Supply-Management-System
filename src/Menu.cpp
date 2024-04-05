@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include <limits>
+#include <iomanip>
 
 void showMetrics(Network network);
 void showGlobaledmondsKarp(Network network);
@@ -105,7 +106,26 @@ void showWaterNeeds(Network network){
     showMetrics(network);
 }
 
+void showMetricsBeforeAndAfterBalancing(Network network) {
+    system("clear");
+    auto metricsBefore = network.computeMetrics(network.getGraph());
+    std::cout << "Metrics before balancing: " << std::endl;
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Average difference: " << std::get<0>(metricsBefore) << std::endl;
+    std::cout << "Variance of differences: " << std::get<1>(metricsBefore) << std::endl;
+    std::cout << "Maximum difference: " << std::get<2>(metricsBefore) << std::endl;
 
+    auto metricsAfter = network.computeMetricsBalanced(network.getGraph());
+    std::cout << "Metrics after balancing: " << std::endl;
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Average difference: " << std::get<0>(metricsAfter) << std::endl;
+    std::cout << "Variance of differences: " << std::get<1>(metricsAfter) << std::endl;
+    std::cout << "Maximum difference: " << std::get<2>(metricsAfter) << std::endl;
+    std::cout << "Press any key to go back to the menu." << "\n";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
+    showMetrics(network);
+}
 void showMetrics(Network network){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
@@ -115,7 +135,8 @@ void showMetrics(Network network){
     std::cout << "1. General Max-Flow" << "\n";
     std::cout << "2. Max-Flow for city" << "\n";
     std::cout << "3. Water Needs" << "\n";
-    std::cout << "4. Go back" << "\n";
+    std::cout << "4. Show metrics before and after balancing" << "\n"; // New option
+    std::cout << "5. Go back" << "\n";
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << "Enter your choice: ";
     int choice;
@@ -123,7 +144,7 @@ void showMetrics(Network network){
     std::cin.ignore(256,'\n');
     std::cin >> choice;
 
-    while (std::cin.fail() || choice>4|| choice <1){
+    while (std::cin.fail() || choice>5|| choice <1){
         std::cout << "Invalid choice. Please try again." << "\n";
         std::cin.clear();
         std::cin.ignore(256,'\n');
@@ -156,6 +177,10 @@ void showMetrics(Network network){
             break;
 
         case 4:
+            showMetricsBeforeAndAfterBalancing(network);
+            break;
+
+        case 5:
             showMenu(network);
             break;
 
