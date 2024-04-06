@@ -2,11 +2,8 @@
 #include <limits>
 #include <iomanip>
 
-void showMetrics(Network network);
-void showGlobaledmondsKarp(Network network);
-void showReliability(Network network);
 
-void showMenu(Network network){
+void Menu::showMenu(Network network){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -48,7 +45,7 @@ void showMenu(Network network){
 }
 
 
-void showGlobaledmondsKarp(Network network){
+void Menu::showGlobaledmondsKarp(Network network){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -69,7 +66,7 @@ void showGlobaledmondsKarp(Network network){
 
 }
 
-void showCityEdmondsKarp(Network network, std::string city){
+void Menu::showCityEdmondsKarp(Network network, std::string city){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -84,7 +81,7 @@ void showCityEdmondsKarp(Network network, std::string city){
     showMetrics(network);
 }
 
-void showWaterNeeds(Network network){
+void Menu::showWaterNeeds(Network network){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -106,7 +103,7 @@ void showWaterNeeds(Network network){
     showMetrics(network);
 }
 
-void showMetricsBeforeAndAfterBalancing(Network network) {
+void Menu::showMetricsBeforeAndAfterBalancing(Network network) {
     system("clear");
     auto metricsBefore = network.computeMetrics(network.getGraph());
     std::cout << "Metrics before balancing: " << std::endl;
@@ -126,7 +123,7 @@ void showMetricsBeforeAndAfterBalancing(Network network) {
     std::cin.get();
     showMetrics(network);
 }
-void showMetrics(Network network){
+void Menu::showMetrics(Network network){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -190,7 +187,7 @@ void showMetrics(Network network){
     }
 }
 
-void showReservoirOut(Network network, std::string reservoir){
+void Menu::showReservoirOut(Network network, std::string reservoir){
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -221,7 +218,7 @@ void showReservoirOut(Network network, std::string reservoir){
     showReliability(network);
 }
 
-void showPumpingStationMaintenance(Network network) {
+void Menu::showPumpingStationMaintenance(Network network) {
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
@@ -238,7 +235,7 @@ void showPumpingStationMaintenance(Network network) {
     showReliability(network);
 }
 
-void showCriticalPipesForCity(Network network, std::string city) {
+void Menu::showCriticalPipesForCity(Network network, std::string city) {
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";
     std::cout << "   Pipes that impact " << city << "\n";
@@ -264,7 +261,7 @@ void showCriticalPipesForCity(Network network, std::string city) {
     showReliability(network);
 }
 
-void showPipesOut(Network network, std::list<std::pair<std::string, std::string>> pipes) {
+void Menu::showPipesOut(Network network, std::list<std::pair<std::string, std::string>> pipes) {
     auto lista = network.calculate_water_needs(network.getGraph());
     auto result = network.pipe_out(pipes, lista, network.getGraph());
     for (auto &i : result) {
@@ -292,7 +289,7 @@ void showPipesOut(Network network, std::list<std::pair<std::string, std::string>
     showReliability(network);
 }
 
-void showReliability(Network network) {
+void Menu::showReliability(Network network) {
     system("clear");
     std::cout << " ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡" << "\n";
     std::cout << " ┏ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺ ╺  ┓" << "\n";

@@ -12,7 +12,8 @@ int main() {
     network.parseStations("../src/dataset/large/Stations.csv");
     network.parsePipes("../src/dataset/large/Pipes.csv");
     network.pipe_out_impact(network.getGraph());
-    showMenu(network);
+    Menu menu;
+    menu.showMenu(network);
 
     return 0;
 }
