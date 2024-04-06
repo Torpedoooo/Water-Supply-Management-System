@@ -7,10 +7,10 @@
 
 int main() {
     Network network;
-    network.parseCities("../src/dataset/small/Cities_Madeira.csv");
-    network.parseReservoirs("../src/dataset/small/Reservoirs_Madeira.csv");
-    network.parseStations("../src/dataset/small/Stations_Madeira.csv");
-    network.parsePipes("../src/dataset/small/Pipes_Madeira.csv");
+    network.parseCities("../src/dataset/large/Cities.csv");
+    network.parseReservoirs("../src/dataset/large/Reservoir.csv");
+    network.parseStations("../src/dataset/large/Stations.csv");
+    network.parsePipes("../src/dataset/large/Pipes.csv");
     network.pipe_out_impact(network.getGraph());
     showMenu(network);
 

@@ -182,8 +182,7 @@ void Network::parsePipes(std::string path) {
             graph.addEdge(source, dest, capacity);
             pipes.insert(std::make_pair(source, dest));
         } else {
-            graph.addEdge(source,dest, capacity);
-            graph.addEdge(dest,source, capacity);
+            graph.addBidirectionalEdge(source,dest, capacity);
             pipes.insert(std::make_pair(source, dest));
             pipes.insert(std::make_pair(dest, source));
         }
@@ -421,47 +420,93 @@ std::tuple<double, double, double> Network::computeMetricsBalanced(Graph<std::st
     double sum_of_squares = 0;
     double max_difference = 0;
     int count = 0;
+    for(auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setSelected(false);
+        }
+    }
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            if(!e->isSelected()) {
+                double difference = 0;
+                if (e->getReverse() == nullptr) { //if not bidirectional
+                    difference = e->getWeight() - e->getFlow();
+                } else { //if is bidirectional
+                    if (e->getFlow() > 0){
+                        difference = e->getWeight() - e->getFlow();
+                    }
+                    else {
+                        difference = e->getReverse()->getWeight() - e->getReverse()->getFlow();
+                    }
+                    e->getReverse()->setSelected(true);
+                }
+                e->setSelected(true);
 
-
-    for (auto vertex : g.getVertexSet()) {
-        for (auto edge : vertex->getAdj()) {
-            double difference = abs(edge->getWeight() - edge->getFlow());
-            sum += difference;
-            sum_of_squares += difference * difference;
-            max_difference = std::max(max_difference, difference);
-            count++;
+                if (difference > max_difference) max_difference = difference;
+                sum += difference;
+                sum_of_squares += difference * difference;
+                count++;
+            }
         }
     }
 
     double average = sum / count;
-
     double variance = (sum_of_squares / count) - (average * average);
 
+    for(auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setSelected(false);
+        }
+    }
     return std::make_tuple(average, variance, max_difference);
 }
 std::tuple<double, double, double> Network::computeMetrics(Graph<std::string> g){
 
     globalEdmondsKarp(g);
-
     double sum = 0;
     double sum_of_squares = 0;
     double max_difference = 0;
     int count = 0;
+    for(auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setSelected(false);
+        }
+    }
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            if(!e->isSelected()) {
+                double difference = 0;
+                if (e->getReverse() == nullptr) { //if not bidirectional
+                    difference = e->getWeight() - e->getFlow();
+                } else { //if is bidirectional
+                    if (e->getFlow() > 0){
+                        difference = e->getWeight() - e->getFlow();
+                    }
+                    else {
+                        difference = e->getReverse()->getWeight() - e->getReverse()->getFlow();
+                    }
+                    e->getReverse()->setSelected(true);
+                }
+                e->setSelected(true);
 
-
-    for (auto vertex : g.getVertexSet()) {
-        for (auto edge : vertex->getAdj()) {
-            double difference = std::abs(edge->getWeight() - edge->getFlow());
-            sum += difference;
-            sum_of_squares += difference * difference;
-            max_difference = std::max(max_difference, difference);
-            count++;
+                if (difference > max_difference) max_difference = difference;
+                sum += difference;
+                sum_of_squares += difference * difference;
+                count++;
+            }
         }
     }
 
     double average = sum / count;
     double variance = (sum_of_squares / count) - (average * average);
+
+    for(auto v : g.getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setSelected(false);
+        }
+    }
     return std::make_tuple(average, variance, max_difference);
+
 }
 std::pair<std::string,double> Network::cityEdmondsKarp(std::string CityCode) {
     Graph<std::string> g = this->graph;

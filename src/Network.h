@@ -141,14 +141,14 @@ public:
     std::list<std::pair<std::string,double>> balancedEdmondsKarp(Graph<std::string> g, bool output);
     /**
      * This function calculates the metrics of the network, such as the total flow, the total flow that reaches the cities,
-     * and the total flow that reaches the reservoirs. - O(E)
+     * and the total flow that reaches the reservoirs. - O(V * E²)
      * @param g the network's graph
      * @return a tuple with the metrics
      */
     std::tuple<double, double, double> computeMetricsBalanced(Graph<std::string> g);
      /**
      * This function calculates the metrics of the network, such as the total flow, the total flow that reaches the cities,
-     * and the total flow that reaches the reservoirs. - O(E)
+     * and the total flow that reaches the reservoirs. - O(V * E²)
      * @param g the network's graph
      * @return a tuple with the metrics
      */
