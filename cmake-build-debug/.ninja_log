@@ -1,0 +1,16 @@
+# ninja log v5
+1	2260	1711651021966183210	CMakeFiles/GraphProject.dir/src/utils.cpp.o	d1cb1e1d42201d86
+1	3089	1711651022738196564	CMakeFiles/GraphProject.dir/src/main.cpp.o	ed9486313509c92c
+1	3498	1711651022894199262	CMakeFiles/GraphProject.dir/src/Menu.cpp.o	bfa475262a8f50a0
+1	4515	1711651024218222174	CMakeFiles/GraphProject.dir/src/Network.cpp.o	49a418c11661ec4a
+4515	4740	1711651024446226120	GraphProject	f5db14e811f4ec79
+1	932	1712402636055098876	CMakeFiles/GraphProject.dir/src/utils.cpp.o	d1cb1e1d42201d86
+1	1368	1712402636487107275	CMakeFiles/GraphProject.dir/src/main.cpp.o	ed9486313509c92c
+1	1696	1712402636819113730	CMakeFiles/GraphProject.dir/src/Menu.cpp.o	bfa475262a8f50a0
+1	2228	1712402637347123987	CMakeFiles/GraphProject.dir/src/Network.cpp.o	49a418c11661ec4a
+2228	2411	1712402637531127560	GraphProject	f5db14e811f4ec79
+2	1046	1712403291001111046	CMakeFiles/GraphProject.dir/src/utils.cpp.o	d1cb1e1d42201d86
+0	1516	1712403291473117392	CMakeFiles/GraphProject.dir/src/main.cpp.o	ed9486313509c92c
+1	1703	1712403291657119865	CMakeFiles/GraphProject.dir/src/Menu.cpp.o	bfa475262a8f50a0
+1	2148	1712403292105125888	CMakeFiles/GraphProject.dir/src/Network.cpp.o	49a418c11661ec4a
+2148	2302	1712403292257127931	GraphProject	f5db14e811f4ec79

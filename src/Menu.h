@@ -6,7 +6,19 @@
 #define GRAPHPROJECT_MENU_H
 #include "Network.h"
 #include "utils.h"
-
-void showMenu(Network network);
+class Menu {
+    public:
+        void showMenu(Network network);
+        void showGlobaledmondsKarp(Network network);
+        void showCityEdmondsKarp(Network network, std::string city);
+        void showWaterNeeds(Network network);
+        void showMetricsBeforeAndAfterBalancing(Network network);
+        void showMetrics(Network network);
+        void showReservoirOut(Network network, std::string reservoir);
+        void showPumpingStationMaintenance(Network network);
+        void showCriticalPipesForCity(Network network, std::string city);
+        void showPipesOut(Network network, std::list<std::pair<std::string, std::string>> pipes);
+        void showReliability(Network network);
+};
 
 #endif //GRAPHPROJECT_MENU_H

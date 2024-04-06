@@ -12,7 +12,8 @@ int main() {
     network.parseStations("../src/dataset/small/Stations_Madeira.csv");
     network.parsePipes("../src/dataset/small/Pipes_Madeira.csv");
     network.pipe_out_impact(network.getGraph());
-    showMenu(network);
+    Menu menu;
+    menu.showMenu(network);
 
     return 0;
 }
